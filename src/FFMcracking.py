@@ -34,9 +34,9 @@ maxd = 10e10
 # Generate List of cracks to test
 CracksList=[]
 import numpy as np
-for L in np.arange(0.3,26.0,0.1):
-  a=[(-7.0-L, 2.5, 0.0),(7.0+L, 2.5, 0.0)]
-  CracksList+=[a]
+
+L = 10.0
+crack=[(-7.0-L, 2.5, 0.0),(7.0+L, 2.5, 0.0)]
 
 lenth_nomat = 14.0      # To remove from the estimation of the crack length the space without material (inside a hole for example)
 ################################################# END OF CONFIGURATION ########
