@@ -8,16 +8,16 @@ HOW TO USE:
 
 ##################################################   CONFIGURATION   ##########
 # Path and name to the input file
-inpFilePath='/home/israel/OHT_UD/'
-inpFileName='OHT_L185W56d14_UD.inp'
-nameStep='Step-1'
+inpFilePath='/home/israel/Calculos/abaqus/prueba2/'
+inpFileName='OpenHoleLongDEF-fmesh-00.inp'
+nameStep='Loading'
 # Path where the output files are saved
 #outRuta='/usr/simulia/Commands/'
 outRuta=inpFilePath
 
 # Material failure properties
-sigmac=10.0   # Tensile strength expressed in the same units that those used in input file
-Gc=5.0        # Fracture toughness expressed in the same units that those used in input file
+sigmac=70  # Tensile strength expressed in the same units that those used in input file
+Gc=0.4     # Fracture toughness expressed in the same units that those used in input file
 ###
 
 ###
@@ -36,9 +36,10 @@ CracksList=[]
 import numpy as np
 
 L = 10.0
-crack=[(-7.0-L, 2.5, 0.0),(7.0+L, 2.5, 0.0)]
+crack=[(1.0, 0.0, 0.0),(3.0, 0.0, 0.0)]
 
-lenth_nomat = 14.0      # To remove from the estimation of the crack length the space without material (inside a hole for example)
+#lenth_nomat = 14.0      # To remove from the estimation of the crack length the space without material (inside a hole for example)
+lenth_nomat = 0.0      # General case
 ################################################# END OF CONFIGURATION ########
 #
 #
@@ -256,7 +257,6 @@ else:
     crit_mult_SC = float('inf')
     #
     #
-critical_mult_array_SC[n_test]=crit_mult_SC
 
 ############################# EVALUATING THE ENERGY CRITERION
 
