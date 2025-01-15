@@ -53,7 +53,19 @@ crack_1 = FFM_Crack(coordinates_1)
 
 
 def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
+    """
+    Compute_crit_factor_FFM computes the critical factor to the current loads in the model which would lead
+                            to crack initiation for a certain crack geometry detailed in CrackFFM object
 
+    :object CrackFFM of class FFM_Crack. This object details the data of the crack to be tested.
+    :object OriginalModel of class FFM_InputModel: This object included the data about the original input model
+                                                    and the material properties
+    
+    :return: a float containing the critical factor to the current loads for which a crack onset is predicted
+                according to the Coupled Criterion of the Finite Fracture Mechanics
+                see D. Leguillon, Europ. Journal of Mech  A/Solids, Vol 21, Issue 1, Page 61-72. 
+                https://doi.org/10.1016/S0997-7538(01)01184-6
+    """ 
     from abaqus import *
     from abaqusConstants import *
     from odbAccess import *
