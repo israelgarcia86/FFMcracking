@@ -21,16 +21,20 @@ class FFM_Crack:
         self.tips_coordinates = tips_coordinates
 
 class FFM_InputModel:
-    def __init__(self,inpFilePath,inpFileName,nameStep,outRuta,material_model):
+    def __init__(self,inpFilePath,inpFileName,nameStep,outRoute,material_model):
         self.inpFilePath = inpFilePath
         self.inpFileName = inpFileName
         self.nameStep = nameStep
-        self.outRuta = outRuta
+        self.outRoute = outRoute
         self.material_model = material_model
     def extract_sigmac(self):
-        return material_model.sigmac
+        return self.material_model.sigmac
     def extract_Gc(self):
-        return material_model.Gc
+        return self.material_model.Gc1
+    def extract_maxsigma(self):
+        return self.material_model.maxsigma
+    def extract_maxd(self):
+        return self.material_model.maxd
 
 
 def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
@@ -74,6 +78,10 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
 
     # Name given to the original model for the EC
     jobNameEC=OriginalModel.inpFileName[:-4]+'-EC'
+
+    nameStep = OriginalModel.nameStep
+
+    outRoute = OriginalModel.outRoute
 
     # CONFIGURE THE SESSION
     session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(referenceRepresentation=ON)
@@ -127,7 +135,6 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # Joining the two lists because the formula to obtain the energy can be applied directly
     lista_nodes_BCs = union(listaNodesForce[:],listaNodesDesp[:])
 
-
     # INCLUDING THE FIELD OUTPUT NFORCE AND U EN EL ANALISIS PARA TENERLOS DESPUES
     mdb.models[modelName].FieldOutputRequest(name='EC0', createStepName=nameStep, variables=('U', 'TF', 'NFORC','RF','CDISP','CSTRESS','CF','PHILSM'))
 
@@ -142,7 +149,7 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     mdb.jobs[jobNameEC+'-without'].waitForCompletion()
 
     # Importing the results
-    odbECwithout = openOdb(outRuta+jobNameEC+'-without.odb')
+    odbECwithout = openOdb(outRoute+jobNameEC+'-without.odb')
 
     # RECUPERAR NFORCE Y U EN ESOS NODOS
     # Generating empty arrays
@@ -221,7 +228,7 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     scratchOdb.rootAssembly.DatumCsysByThreePoints(name='CSYS-1',
         coordSysType=CARTESIAN, origin=(0.0, 0.0, 0.0), point1=(aux[0],aux[1], 0.0),
         point2=(-t_vector[1],t_vector[0], 0.0))
-    dtm = session.scratchOdbs[outRuta+jobNameEC+'-without.odb'].rootAssembly.datumCsyses['CSYS-1']
+    dtm = session.scratchOdbs[outRoute+jobNameEC+'-without.odb'].rootAssembly.datumCsyses['CSYS-1']
     session.viewports['Viewport: 1'].odbDisplay.basicOptions.setValues(
         transformationType=USER_SPECIFIED, datumCsys=dtm)
 
@@ -270,6 +277,9 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # IMPORTING THE MODEL
     mdb.ModelFromInputFile(name=modelName, inputFileName=inpFileTotal)
     a = mdb.models[modelName].rootAssembly
+
+    maxsigma = OriginalModel.extract_maxsigma()
+    maxd = OriginalModel.extract_maxd()
 
     # INCLUIR GRIETA XFEM
     # Introducing damage model in material
@@ -355,7 +365,7 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
 
     # RECUPERAR NFORCE AND U EN EL ANALISIS
     # Importing the results
-    odbECwith = openOdb(outRuta+jobNameEC+'-with.odb')
+    odbECwith = openOdb(outRoute+jobNameEC+'-with.odb')
 
     # RECUPERAR NFORCE Y U EN ESOS NODOS
     # Generating empty arrays
