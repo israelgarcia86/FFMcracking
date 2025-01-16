@@ -161,8 +161,8 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # Exploring the results
     UList=odbECwithout.steps[nameStep].frames[-1].fieldOutputs['U'].values
     RFList=odbECwithout.steps[nameStep].frames[-1].fieldOutputs['RF'].values
-    #    NF1List=odbECwithout.steps[nameStep].frames[-1].fieldOutputs['NFORC1'].values
-    #    NF2List=odbECwithout.steps[nameStep].frames[-1].fieldOutputs['NFORC2'].values
+    NF1List=odbECwithout.steps[nameStep].frames[-1].fieldOutputs['NFORC1'].values
+    NF2List=odbECwithout.steps[nameStep].frames[-1].fieldOutputs['NFORC2'].values   
 
     for n in UList:
         if n.nodeLabel in listaNodesDesp or n.nodeLabel in listaNodesForce:
@@ -176,17 +176,15 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
             Fx1_BC[i] = n.dataDouble[0]
             Fy1_BC[i] = n.dataDouble[1]
 
-    #    for n in NF1List:
-    #        if n.nodeLabel in listaNodesForce:
-    #            i = lista_nodes_BCs.index(n.nodeLabel)
-    #            Fx1_BC[i] += n.data
-    #
-    #    for n in NF2List:
-    #        if n.nodeLabel in listaNodesForce:
-    #            i = lista_nodes_BCs.index(n.nodeLabel)
-    #            Fy1_BC[i] += n.data
-
-        # REMOVE JOB
+    for n in NF1List:
+        if n.nodeLabel in listaNodesForce:
+            i = lista_nodes_BCs.index(n.nodeLabel)
+            Fx1_BC[i] -= n.data
+            
+    for n in NF2List:
+        if n.nodeLabel in listaNodesForce:
+            i = lista_nodes_BCs.index(n.nodeLabel)
+            Fy1_BC[i] -= n.data
 
     # For a straight crack
     # Initial point for the crack
@@ -220,7 +218,6 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # Tangent vector
     aux = (np.array(point2) - np.array(point1))/np.linalg.norm((np.array(point2) - np.array(point1)))
     t_vector = np.array([aux[0],aux[1]])
-
     # Normal vector
     n_vector = np.array([-t_vector[1],t_vector[0]])
 
@@ -331,8 +328,6 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
 
     # Defining the Crack Location
     a = mdb.models[modelName].rootAssembly
-    #e1 = a.instances['Part-2-1'].edges
-    #edges1 = e1.findAt(((0.0, 3.75, 0.0), ))
     edges1 = a.instances['Crack-Instance'].edges
     crackLocation = regionToolset.Region(edges=edges1)
 
@@ -342,7 +337,6 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
 
     # Defining the interaction
     mdb.models[modelName].XFEMCrackGrowth(name='Int-1', createStepName='Initial', crackName='Crack-1')
-    #: The interaction "Int-1" has been created.
 
     # Visualazing the crack
     session.viewports['Viewport: 1'].assemblyDisplay.setValues(interactions=OFF,  constraints=OFF, connectors=OFF, engineeringFeatures=OFF)
@@ -377,8 +371,8 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # Exploring the results
     UList=odbECwith.steps[nameStep].frames[-1].fieldOutputs['U'].values
     RFList=odbECwith.steps[nameStep].frames[-1].fieldOutputs['RF'].values
-    #    NF1List=odbECwith.steps[nameStep].frames[-1].fieldOutputs['NFORC1'].values
-    #    NF2List=odbECwith.steps[nameStep].frames[-1].fieldOutputs['NFORC2'].values
+    NF1List=odbECwith.steps[nameStep].frames[-1].fieldOutputs['NFORC1'].values
+    NF2List=odbECwith.steps[nameStep].frames[-1].fieldOutputs['NFORC2'].values
 
     for n in UList:
         if n.nodeLabel in listaNodesDesp or n.nodeLabel in listaNodesForce:
@@ -392,15 +386,15 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
             Fx2_BC[i] = n.dataDouble[0]
             Fy2_BC[i] = n.dataDouble[1]
 
-    #    for n in NF1List:
-    #        if n.nodeLabel in listaNodesForce:
-    #            i = lista_nodes_BCs.index(n.nodeLabel)
-    #            Fx2_BC[i] += n.data
-    #
-    #    for n in NF2List:
-    #        if n.nodeLabel in listaNodesForce:
-    #            i = lista_nodes_BCs.index(n.nodeLabel)
-    #            Fy2_BC[i] += n.data
+    for n in NF1List:
+        if n.nodeLabel in listaNodesForce:
+            i = lista_nodes_BCs.index(n.nodeLabel)
+            Fx2_BC[i] -= n.data
+            
+    for n in NF2List:
+        if n.nodeLabel in listaNodesForce:
+            i = lista_nodes_BCs.index(n.nodeLabel)
+            Fy2_BC[i] -= n.data
 
 
     # CALCULAR EL CAMBIO DE ENERGIA A PARTIR DEL CAMBIO
