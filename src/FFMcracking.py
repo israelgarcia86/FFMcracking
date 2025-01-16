@@ -32,25 +32,6 @@ class FFM_InputModel:
     def extract_Gc(self):
         return material_model.Gc
 
-###########################   CONFIGURATION   ################################
-# Input files, path and mat properties
-inpFilePath = '/home/israel/Calculos/abaqus/prueba2/'
-inpFileName = 'OpenHoleLongDEF-fmesh-00.inp'
-nameStep = 'Loading'
-outRuta = inpFilePath
-sigmac = 70.0
-Gc1 = 0.4
-
-# Generation of the clases
-material_1 = FFM_Material(sigmac = 70.0, tauc = 0.0, Gc1 = 0.4, Gc2 = 0.0)
-model_1 = FFM_InputModel(inpFilePath,inpFileName,nameStep,outRuta,material_1)
-###############################################################################
-
-
-# Crack geometry
-coordinates_1 = [(1.0, 0.0, 0.0),(3.0, 0.0, 0.0)]
-crack_1 = FFM_Crack(coordinates_1)
-
 
 def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     """
