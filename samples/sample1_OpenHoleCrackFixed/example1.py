@@ -1,9 +1,9 @@
 ###########################   CONFIGURATION   ################################
 # Input files, path and mat properties
-inpFilePath = '/home/israel/Calculos/abaqus/prueba3/'
+inpFilePath = '/home/israel/Calculos/abaqus/prueba5/'
 inpFileName = 'OpenHoleLongDEF-fmesh-00.inp'
 nameStep = 'Loading'
-outRoute = inpFilePath
+outRoute = '/home/israel/Calculos/abaqus/prueba5/compFiles/'
 sigmac = 70.0
 Gc1 = 0.4
 ##############################################################################
@@ -18,7 +18,7 @@ model_1 = FFM.FFM_InputModel(inpFilePath,inpFileName,nameStep,outRoute,material_
 
 # In this example, the test corresponds to 
 # Crack geometry
-coordinates_1 = [(1.0, 0.0, 0.0),(3.0, 0.0, 0.0)]
+coordinates_1 = [(1.0, 0.0, 0.0),(4.5, 0.0, 0.0)]
 crack_1 = FFM.FFM_Crack(coordinates_1)
 ################################################################################
 
