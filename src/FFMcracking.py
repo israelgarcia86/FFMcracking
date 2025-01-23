@@ -151,8 +151,6 @@ def extractStressesBetween2points(session,odbObject,point1,point2):
     ListPointsPathArray = np.transpose(np.array([auxX,auxY,auxZ]))
     ListPointsPath = tuple(map(tuple,ListPointsPathArray))
 
-    ############################## EVALUATING THE STRESS CRITERION
-    
     # CONFIGURE THE SESSION
     session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(referenceRepresentation=ON)
     session.viewports['Viewport: 1'].setValues(displayedObject=None)
@@ -343,6 +341,12 @@ def extractStresses_crackpath(session,odbObject,CrackFFM):
 
     return [stt, snn, stn]
 
+def remove_files(directory,word):
+    import os
+    for f in os.listdir(directory):
+        if word in f:
+            os.remove(directory + f)
+
 
 def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     """
@@ -388,10 +392,46 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # Route to keep the files of the simulations
     outRoute = OriginalModel.outRoute
 
+    # Generate the output directory in case it does not exist
+    if not os.path.isdir(outRoute):
+        os.mkdir(outRoute[:-1])
+
+    # Defining work directory
+    os.chdir(outRoute)
+
     # CONFIGURE THE SESSION
     session.viewports['Viewport: 1'].partDisplay.geometryOptions.setValues(referenceRepresentation=ON)
     Mdb()
     session.viewports['Viewport: 1'].setValues(displayedObject=None)
+
+    if jobNameEC+'-without.odb' not in os.listdir(outRoute):
+
+        # IMPORTING THE MODEL
+        mdb.ModelFromInputFile(name=modelName, inputFileName=inpFileTotal)
+        a = mdb.models[modelName].rootAssembly
+
+        # Including the field output U and NFORC to extract after the results
+        mdb.models[modelName].FieldOutputRequest(name='EC0', createStepName=nameStep, variables=('U', 'TF', 'NFORC','RF','CDISP','CSTRESS','CF','PHILSM'))
+
+        # Generate a job for the case without crack
+        mdb.Job(name=jobNameEC+'-without', model=modelName, description='', type=ANALYSIS, atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, explicitPrecision=DOUBLE, nodalOutputPrecision=FULL, echoPrint=OFF, modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='',     scratch='', multiprocessingMode=DEFAULT, numCpus=1)
+
+        # SUBMITTING THE ANALYSIS
+        # Submit the job for the Stress Criterion
+        mdb.jobs[jobNameEC+'-without'].submit(consistencyChecking=OFF)
+
+        # Waiting for the job to be completed
+        mdb.jobs[jobNameEC+'-without'].waitForCompletion()
+
+    # Importing the results
+    odbECwithout = openOdb(outRoute+jobNameEC+'-without.odb')
+
+    [stt, snn, stn] = extractStresses_crackpath(session,odbECwithout,CrackFFM)
+
+    ## Calculating the multiplier for the initial loads
+    crit_mult_SC = evaluate_stress_criterion(stt,snn,stn,OriginalModel)
+
+    ### EVALUATING THE ENERGY CRITERION
 
     # IMPORTING THE MODEL
     mdb.ModelFromInputFile(name=modelName, inputFileName=inpFileTotal)
@@ -406,36 +446,9 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     # Joining the two lists because the formula to obtain the energy can be applied directly during the EC evaluation
     lista_nodes_BCs = union(listaNodesForce[:],listaNodesDesp[:])
 
-    # Including the field output U and NFORC to extract after the results
-    mdb.models[modelName].FieldOutputRequest(name='EC0', createStepName=nameStep, variables=('U', 'TF', 'NFORC','RF','CDISP','CSTRESS','CF','PHILSM'))
-
-    # Generate a job for the case without crack
-    mdb.Job(name=jobNameEC+'-without', model=modelName, description='', type=ANALYSIS, atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, explicitPrecision=DOUBLE, nodalOutputPrecision=FULL, echoPrint=OFF, modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='',     scratch='', multiprocessingMode=DEFAULT, numCpus=1)
-
-    # SUBMITTING THE ANALYSIS
-    # Submit the job for the Stress Criterion
-    mdb.jobs[jobNameEC+'-without'].submit(consistencyChecking=OFF)
-
-    # Waiting for the job to be completed
-    mdb.jobs[jobNameEC+'-without'].waitForCompletion()
-
-    # Importing the results
-    odbECwithout = openOdb(outRoute+jobNameEC+'-without.odb')
-
-    [stt, snn, stn] = extractStresses_crackpath(session,odbECwithout,CrackFFM)
-
-    ## Calculating the multiplier for the initial loads
-    crit_mult_SC = evaluate_stress_criterion(stt,snn,stn,OriginalModel)
-
-    ### EVALUATING THE ENERGY CRITERION
-
-    # Extracting the results of forces and displacement before the crack onset
+     # Extracting the results of forces and displacement before the crack onset
     resultsObjectwithout = odbECwithout.steps[nameStep].frames[-1]
     [Ux1_BC,Uy1_BC,Fx1_BC,Fy1_BC] = extractDespForcefromNodes(resultsObjectwithout,listaNodesDesp,listaNodesForce,lista_nodes_BCs)
-
-    # IMPORTING THE MODEL
-    mdb.ModelFromInputFile(name=modelName, inputFileName=inpFileTotal)
-    a = mdb.models[modelName].rootAssembly
 
     # Data for the XFEM model
     maxsigma = OriginalModel.extract_maxsigma()
@@ -451,6 +464,9 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
 
     # INCLUDING THE FIELD OUTPUT NFORCE AND U EN EL ANALISIS PARA TENERLOS DESPUES
     mdb.models[modelName].FieldOutputRequest(name='EC0', createStepName=nameStep, variables=('U', 'TF', 'NFORC','RF','CDISP','CSTRESS','CF','PHILSM'))
+
+    # Delete all the files with the word 'with.' from a previous analysis to avoid conflicts
+    remove_files(outRoute,'with.')
 
     # Generatin the job
     mdb.Job(name=jobNameEC+'-with', model=modelName, description='', type=ANALYSIS, atTime=None, waitMinutes=0, waitHours=0, queue=None, memory=90, memoryUnits=PERCENTAGE, getMemoryFromAnalysis=True, explicitPrecision=SINGLE, nodalOutputPrecision=FULL, echoPrint=OFF, modelPrint=OFF, contactPrint=OFF, historyPrint=OFF, userSubroutine='', scratch='', multiprocessingMode=DEFAULT, numCpus=1)
