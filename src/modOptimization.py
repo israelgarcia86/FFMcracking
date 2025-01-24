@@ -8,18 +8,18 @@ HOW TO USE: Please see Readme in the same repository
 import math
 import random
 import numpy as np
-import matplotlib.pyplot as plt
+# import matplotlib.pyplot as plt
 
-# Define the functions
-def f1(x):
-    return math.sin(3 * x) + x**2 - 0.7 * x
+# # Define the functions
+# def f1(x):
+#     return math.sin(3 * x) + x**2 - 0.7 * x
 
-def f2(x):
-    return math.cos(2 * x) - x**2 + 0.5
+# def f2(x):
+#     return math.cos(2 * x) - x**2 + 0.5
 
-# Objective: Minimize the min of f1 and f2
-def objective(x):
-    return max(f1(x), f2(x))
+# # Objective: Minimize the min of f1 and f2
+# def objective(x):
+#     return max(f1(x), f2(x))
     
 
 # Gaussian process kernel (RBF)
@@ -36,8 +36,8 @@ def gaussian_process(x_train, y_train, x_pred, noise=1e-6):
     k_star = np.array([rbf_kernel(x_pred, xi) for xi in x_train])
     k_star_star = rbf_kernel(x_pred, x_pred)
     
-    mean = k_star @ K_inv @ y_train
-    variance = k_star_star - k_star @ K_inv @ k_star
+    mean = np.dot(k_star,np.dot(K_inv,y_train))
+    variance = k_star_star - np.dot(k_star,np.dot(K_inv,k_star))
     return mean, max(0, variance)
 
 # Expected Improvement (EI) acquisition function
@@ -76,29 +76,29 @@ def bayesian_optimization(obj_func, bounds, n_iterations, n_initial=5):
     
     return best_x, best_y, x_train, y_train
 
-# Run the optimization
-bounds = (0, 2)
-n_iterations = 10
-best_x, best_y, x_train, y_train = bayesian_optimization(objective, bounds, n_iterations)
+# # Run the optimization
+# bounds = (0, 2)
+# n_iterations = 10
+# best_x, best_y, x_train, y_train = bayesian_optimization(objective, bounds, n_iterations)
 
-print(f"Best x: {best_x}")
-print(f"Best y: {best_y}")
+# print('Best x: ' + str(best_x))
+# print('Best y: ' + str(best_y))
 
-# Plot the functions and the result
-x_vals = np.linspace(bounds[0], bounds[1], 500)
-f1_vals = [f1(x) for x in x_vals]
-f2_vals = [f2(x) for x in x_vals]
-objective_vals = [objective(x) for x in x_vals]
+# # Plot the functions and the result
+# x_vals = np.linspace(bounds[0], bounds[1], 500)
+# f1_vals = [f1(x) for x in x_vals]
+# f2_vals = [f2(x) for x in x_vals]
+# objective_vals = [objective(x) for x in x_vals]
 
-plt.figure(figsize=(10, 6))
-plt.plot(x_vals, f1_vals, label="f1(x)", linestyle="--")
-plt.plot(x_vals, f2_vals, label="f2(x)", linestyle="--")
-plt.plot(x_vals, objective_vals, label="max(f1(x), f2(x))", linewidth=2)
-plt.scatter(x_train, y_train, color="red", label="Sampled Points")
-plt.scatter([best_x], [best_y], color="green", s=100, label="Best Point")
-plt.title("Bayesian Optimization of min(f1(x), f2(x))")
-plt.xlabel("x")
-plt.ylabel("y")
-plt.legend()
-plt.grid(True)
-plt.show()
+# plt.figure(figsize=(10, 6))
+# plt.plot(x_vals, f1_vals, label="f1(x)", linestyle="--")
+# plt.plot(x_vals, f2_vals, label="f2(x)", linestyle="--")
+# plt.plot(x_vals, objective_vals, label="max(f1(x), f2(x))", linewidth=2)
+# plt.scatter(x_train, y_train, color="red", label="Sampled Points")
+# plt.scatter([best_x], [best_y], color="green", s=100, label="Best Point")
+# plt.title("Bayesian Optimization of min(f1(x), f2(x))")
+# plt.xlabel("x")
+# plt.ylabel("y")
+# plt.legend()
+# plt.grid(True)
+# plt.show()
