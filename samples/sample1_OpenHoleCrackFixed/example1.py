@@ -24,6 +24,6 @@ crack_1 = FFM.FFM_Crack(coordinates_1)
 
 ################################################################################
 # Run the code
-critical_factor = FFM.Compute_crit_factor_FFM(crack_1,model_1)
-print('The critical factor is: ' + str(critical_factor))
+[critical_factor_CC, critical_factor_SC, critical_factor_EC] = FFM.Compute_crit_factor_FFM(crack_1,model_1)
+print('The critical factor is: ' + str(critical_factor_CC))
 ################################################################################

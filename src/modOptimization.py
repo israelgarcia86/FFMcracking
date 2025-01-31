@@ -41,9 +41,18 @@ def gaussian_process(x_train, y_train, x_pred, noise=1e-6):
     return mean, max(0, variance)
 
 # Expected Improvement (EI) acquisition function
-def expected_improvement(x_pred, x_train, y_train, best_y, xi=0.01):
-    mean, variance = gaussian_process(x_train, y_train, x_pred)
-    std_dev = math.sqrt(variance)
+def expected_improvement(x_pred, x_train, y_train_f1, y_train_f2, best_y, xi=0.01):
+    mean_f1, variance_f1 = gaussian_process(x_train, y_train_f1, x_pred)
+    mean_f2, variance_f2 = gaussian_process(x_train, y_train_f2, x_pred)
+    std_dev_f1 = math.sqrt(variance_f1)
+    std_dev_f2 = math.sqrt(variance_f2)
+    mean = max([mean_f1,mean_f2])
+    # Calculating the standard combintation of the combintation
+    low_conf_interval_f1 = mean_f1 - std_dev_f1
+    low_conf_interval_f2 = mean_f2 - std_dev_f2
+    low_conf_interval = max(low_conf_interval_f1,low_conf_interval_f2)
+    std_dev = np.abs(mean - low_conf_interval)
+
     z = (best_y - mean - xi) / std_dev if std_dev > 0 else 0
     ei = (best_y - mean - xi) * norm_cdf(z) + std_dev * norm_pdf(z)
     return ei
@@ -58,17 +67,22 @@ def norm_cdf(z):
 # Bayesian optimization
 def bayesian_optimization(obj_func, bounds, n_iterations, n_initial=5):
     x_train = [random.uniform(*bounds) for _ in range(n_initial)]
-    y_train = [obj_func(x) for x in x_train]
+    y_train_lists = [obj_func(x) for x in x_train]
+    y_train = [y_train_lists[_][0] for _ in range(n_initial)]
+    y_train_f1 = [y_train_lists[_][1] for _ in range(n_initial)]
+    y_train_f2 = [y_train_lists[_][2] for _ in range(n_initial)]
     best_x = x_train[np.argmin(y_train)]
     best_y = min(y_train)
     
     for _ in range(n_iterations):
         x_candidates = np.linspace(bounds[0], bounds[1], 100)
-        ei_values = [expected_improvement(x, x_train, y_train, best_y) for x in x_candidates]
+        ei_values = [expected_improvement(x, x_train, y_train_f1, y_train_f2, best_y) for x in x_candidates]
         next_x = x_candidates[np.argmax(ei_values)]
         
-        next_y = obj_func(next_x)
+        [next_y, next_y_f1, next_y_f2] = obj_func(next_x)
         x_train.append(next_x)
+        y_train_f1.append(next_y_f1)
+        y_train_f2.append(next_y_f2)
         y_train.append(next_y)
         
         if next_y < best_y:

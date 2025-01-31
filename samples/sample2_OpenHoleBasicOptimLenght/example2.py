@@ -25,13 +25,15 @@ model_1 = FFM.FFM_InputModel(inpFilePath,inpFileName,nameStep,outRoute,material_
 def objective(L):
     coordinates_1 = [(1.0, 0.0, 0.0),(1.0+L, 0.0, 0.0)]
     crack_1 = FFM.FFM_Crack(coordinates_1)
-    critical_factor = FFM.Compute_crit_factor_FFM(crack_1,model_1)
-    print('Evaluated for L = ' + str(L) + 'and got crit factor = ' + str(critical_factor))
-    return critical_factor
+    [critical_factor_CC, critical_factor_SC, critical_factor_EC] = FFM.Compute_crit_factor_FFM(crack_1,model_1)
+    print('Evaluated for L = ' + str(L) + 'and got crit factor = ' + str(critical_factor_CC))
+    return [critical_factor_CC, critical_factor_SC, critical_factor_EC]
 
 bounds = (L_min, L_max)
 n_iterations = 10
 best_x, best_y, x_train, y_train = modOpt.bayesian_optimization(objective, bounds, n_iterations)
-modOpt.bayesian_optimization(objective,[L_min,L_max])
-print('The critical factor is: ' + str(critical_factor))
+print('The critical factor is: ' + str(best_y) + ' for a increment of crack length of ' +  str(best_x))
+print('Training data')
+print('xtrain: ', str(x_train))
+print('ytrain: ', str(y_train))
 ################################################################################
