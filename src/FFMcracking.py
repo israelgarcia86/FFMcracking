@@ -508,4 +508,4 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
     mdb.close()
 
     ## RETURNING THE CRITICAL FACTOR ACCORDING TO THE COUPLED CRITERION
-    return crit_mult_CC
+    return [crit_mult_CC, crit_mult_SC, crit_mult_EC]
