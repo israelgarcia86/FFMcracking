@@ -32,10 +32,10 @@ class FFM_Crack:
     Attributes:
         added_crack_geom: List for every segment of the coordinates defining the geometry 
                         of the segment for the new crack. In case of straight segments: Two coordinates per segment.
-                        Coordinates are given as tuples (x,y)
+                        Coordinates are given as tuples (x,y,z)
         curr_crack_geom: List for every segment of the coordinates defining the geometry
                         of the segment for the current crack. In case of straight segments: Two coordinates per segment.
-                        Coordinates are given as tuples (x,y)
+                        Coordinates are given as tuples (x,y,z)
         added_crack_type: List of strings defining the type of every segment for the new crack.
                         Options for now: 'straight', more to be added
         curr_crack_type: List of strings defining the type of every segment for the current crack.
