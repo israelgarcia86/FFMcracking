@@ -46,7 +46,7 @@ class FFM_Crack:
                     added_crack_type = ['straight']*len(added_crack_geom), 
                     curr_crack_type = ['straight']*len(curr_crack_geom)):
         self.added_crack_geom = added_crack_geom
-        self.curr_tips_coords = curr_crack_geom 
+        self.curr_crack_geom = curr_crack_geom 
         self.added_crack_type = added_crack_type
         self.curr_crack_type = curr_crack_type
 
