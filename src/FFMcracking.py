@@ -50,7 +50,7 @@ class FFM_Crack:
         self.added_crack_type = added_crack_type
         self.curr_crack_type = curr_crack_type
 
-    def consolidade_segment(self,segment_geom,segment_type):
+    def consolidade_crack_extension(self,segment_geom,segment_type):
         self.curr_crack_geom.append(segment_geom)
         self.curr_crack_type.append(segment_type)
         
