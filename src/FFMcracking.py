@@ -239,22 +239,35 @@ def evaluate_stress_criterion(stt,snn,stn,ModelObject):
     
     return crit_mult_SC
 
-def generate_crack(crackObject,modelObject,session,regionToolset):
+def generate_crack(crackObject,modelObject,session,regionToolset,include_extended_crack = True):
     import math
     import numpy as np
     from abaqusConstants import *
     ###############
     # Generating the geometry for the crack
     ###############
-    # Initial point por the crack
-    point1 = crackObject.tips_coordinates[0]
-    # Final point por the crack
-    point2 = crackObject.tips_coordinates[1]
-    approx_size = math.sqrt(np.sum((np.array(point2) - np.array(point1))**2))
+    approx_size = 1.0
     s = modelObject.ConstrainedSketch(name='__profile__', sheetSize=approx_size)
     g, v, d, c = s.geometry, s.vertices, s.dimensions, s.constraints
     s.setPrimaryObject(option=STANDALONE)
-    s.Line(point1=point1[0:2], point2=point2[0:2])
+
+    # Generate lines corresponding to the current crack
+    for i in range(len(crackObject.curr_crack_geom)):
+        if crackObject.curr_crack_type[i] == 'straight':
+            s.Line(point1=crackObject.curr_crack_geom[i][0][0:2], point2=crackObject.curr_crack_geom[i][1][0:2])
+        else:
+            print('ERROR: The type of crack ' + crackObject.curr_crack_type[i] + 'is not implemented yet.')
+            print('This segment wont be considered')
+
+    if include_extended_crack:
+        # Adding lines correspoding to the extended crack
+        for i in range(len(crackObject.added_crack_geom)):
+            if crackObject.added_crack_type[i] == 'straight':
+                s.Line(point1=crackObject.added_crack_geom[i][0][0:2], point2=crackObject.added_crack_geom[i][1][0:2])
+            else:
+                print('ERROR: The type of crack ' + crackObject.added_crack_type[i] + 'is not implemented yet.')
+                print('This segment wont be considered')
+
     p = modelObject.Part(name='Crack', dimensionality=TWO_D_PLANAR,type=DEFORMABLE_BODY)
     p = modelObject.parts['Crack']
     p.BaseWire(sketch=s)
