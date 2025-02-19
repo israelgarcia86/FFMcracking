@@ -27,13 +27,33 @@ class FFM_Material:
         self.maxd = 1.0e10*Gc1/sigmac
 
 class FFM_Crack:
-    """Class defining a crack object
+    """Class defining a crack object in the context of FFM
 
     Attributes:
-        tips_coordinates: List with the crack tips
+        added_crack_geom: List for every segment of the coordinates defining the geometry 
+                        of the segment for the new crack. In case of straight segments: Two coordinates per segment.
+                        Coordinates are given as tuples (x,y)
+        curr_crack_geom: List for every segment of the coordinates defining the geometry
+                        of the segment for the current crack. In case of straight segments: Two coordinates per segment.
+                        Coordinates are given as tuples (x,y)
+        added_crack_type: List of strings defining the type of every segment for the new crack.
+                        Options for now: 'straight', more to be added
+        curr_crack_type: List of strings defining the type of every segment for the current crack.
+                        Options for now: 'straight', more to be added
     """
-    def __init__(self, tips_coordinates):
-        self.tips_coordinates = tips_coordinates
+    def __init__(self, added_crack_geom = [], 
+                    curr_crack_geom = [], 
+                    added_crack_type = ['straight']*len(added_crack_geom), 
+                    curr_crack_type = ['straight']*len(curr_crack_geom)):
+        self.added_crack_geom = added_crack_geom
+        self.curr_tips_coords = curr_crack_geom 
+        self.added_crack_type = added_crack_type
+        self.curr_crack_type = curr_crack_type
+
+    def consolidade_segment(self,segment_geom,segment_type):
+        self.curr_crack_geom.append(segment_geom)
+        self.curr_crack_type.append(segment_type)
+        
 
 class FFM_InputModel:
     """Class for objects containng the input model and the problem to solve
@@ -223,6 +243,7 @@ def generate_crack(crackObject,modelObject,session,regionToolset):
     import math
     import numpy as np
     from abaqusConstants import *
+    ###############
     # Generating the geometry for the crack
     ###############
     # Initial point por the crack
