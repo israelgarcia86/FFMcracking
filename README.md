@@ -1,129 +1,82 @@
-<h1 style="font-weight:normal">
-  <a href="https://sourcerer.io">
-    <img src=https://user-images.githubusercontent.com/20287615/34189346-d426d4c2-e4ef-11e7-9da4-cc76a1ed111d.png alt="Sourcerer" width=35>
-  </a>
-  &nbsp;sourcerer.io&nbsp;
-  <a href="https://sourcerer.io/start"><img src=https://img.shields.io/badge/sourcerer-start%20now-brightgreen.svg?colorA=087c08></a>
-  <a href="https://github.com/sourcerer-io/sourcerer-app/releases"><img src=https://img.shields.io/github/release/sourcerer-io/sourcerer-app.svg?colorB=58839b></a>
-  <a href="https://github.com/sourcerer-io/sourcerer-app/blob/master/LICENSE.md"><img src=https://img.shields.io/github/license/sourcerer-io/sourcerer-app.svg?colorB=ff0000></a>
-</h1>
+# FFMcracking: Coupled Criterion for Crack Initiation in Abaqus
 
-An automatic code for predicting crack initiation and propagation in solid mechanics using the coupled criterion of the finite fracture mechanics.
-<br>
+This repository contains a Python script for Abaqus that applies the **Coupled Criterion** of **Finite Fracture Mechanics** in an automated manner to predict crack initiation. The script integrates with Abaqus to perform simulations and identify crack onset based on the coupled **stress** and **energy** criteria.
 
-<p align="center">
-  <img alt="sergey" src="https://user-images.githubusercontent.com/20287615/47371068-c70f5a00-d6ef-11e8-8988-dcdca71bf83c.gif">
-</p>
+## How It Works
 
-Features
-========
-* ..
-* ..
-* ..
+The user needs to provide:
 
+- An Abaqus **input file** (`.inp`) created with Abaqus CAE, where the **geometry, material properties, boundary conditions, and mesh** are defined. This input file can be generated following the standard Abaqus CAE workflow.
+- A separate **auxiliary file** specifying the **fracture and strength material properties**.
+- (Optional) **Hypotheses** about the **crack initiation geometry**, such as **crack direction** and **initiation point**. Providing more hypotheses will speed up the computation. If not specified, the script attempts to estimate the optimal crack geometry at initiation (*feature under development*).
 
-Get started
-===========
-The easiest way to get started is with your open source repos. Go to [sourcerer.io/start](https://sourcerer.io/start), and select *Build with GitHub* and watch your profile build.
+The script calculates the **load factor** that, when applied to the loads in the user-defined model, leads to **crack initiation**, along with the corresponding crack geometry.
 
-For closed source repos, you will need to use this app. If you already created an account using GitHub, you would have received an email with credentials for the app. If not, You will need a new account, which you can get at [sourcerer.io/join](https://sourcerer.io/join).
+![Code Schematic](images/Objectives.png)
 
-Showcase
-========
-<center>
-  <table>
-    <tr>
-      <td><a href="https://sourcerer.io/chdemko"><img width="120" alt="chdemko" src="https://user-images.githubusercontent.com/20287615/42243607-c7f6c40c-7ec6-11e8-9f8e-d4450d1d92d1.png"></a></td>
-      <td><a href="https://sourcerer.io/chendaniely"><img width="120" alt="chendaniely" src="https://user-images.githubusercontent.com/20287615/42243623-d1bd479a-7ec6-11e8-983c-00945c926dc6.png"></a></td>
-      <td><a href="https://sourcerer.io/lauragift21"><img width="120" alt="lauragift21" src="https://user-images.githubusercontent.com/20287615/42243624-d1d24cd0-7ec6-11e8-84c0-3a1aad54a774.png"></a></td>
-      <td><a href="https://sourcerer.io/maracuja-juice"><img width="120" alt="maracuja-juice" src="https://user-images.githubusercontent.com/20287615/42243626-d1eb19c2-7ec6-11e8-8e94-fa02d8f11894.png"></a></td>
-    </tr>
-    <tr>
-      <td><a href="https://sourcerer.io/marisbotero"><img width="120" alt="marisbotero" src="https://user-images.githubusercontent.com/20287615/42243627-d203bb58-7ec6-11e8-945e-49b878f07436.png"></a></td>
-      <td><a href="https://sourcerer.io/nordes"><img width="120" alt="nordes" src="https://user-images.githubusercontent.com/20287615/42243628-d21df464-7ec6-11e8-9147-31b99ea3465d.png"></a></td>
-      <td><a href="https://sourcerer.io/ppapadeas"><img width="120" alt="ppapadeas" src="https://user-images.githubusercontent.com/20287615/42243629-d23b27e6-7ec6-11e8-92c1-0c3edc2f3dba.png"></a></td>
-      <td><a href="https://sourcerer.io/praharshjain"><img width="120" alt="praharshjain" src="https://user-images.githubusercontent.com/20287615/42243630-d2562abe-7ec6-11e8-8ad3-fd6ca3ddd413.png"></a></td>
-    </tr>
-  </table>
-</center>
+## Features
 
-Requirements
-============
-* Web browser
+### Current Features
+- Given a predefined crack geometry at initiation, computation of the **load factor** required to satisfy both the **stress** and **energy** criteria.
+- Given a known **initiation point** and **crack direction**, automatic **Bayesian Optimization** to determine the **optimal crack length** and **critical load factor**.
 
-or
+### Upcoming Features
+- **Crack propagation analysis**: Computation of crack growth steps after initiation, following the coupled criterion of finite fracture mechanics.
+- **Multi-parameter optimization**: Optimization of crack initiation **direction** and **location**, when unknown.
+- **Integration with Abaqus ODB output**: Results will be saved directly in an **ODB** file.
+- **Crack initiation along bimaterial interfaces**.
+- **Crack initiation in 3D solids**.
 
-* Linux or macOS or Windows
-* Java 8+ Platform ([JRE](http://www.oracle.com/technetwork/java/javase/downloads/jre8-downloads-2133155.html) for Linux and Windows or [JDK](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) for macOS)
-* Bash for Windows (`git bash` should suffice)
+## Prerequisites
 
-Usage
-=====
-To install sourcerer run the following command in bash:
+Before running the script, ensure you have:
+
+- **Abaqus 2020 or later**  
+  > *Note:* Abaqus 2014 has a known issue that limits the number of degrees of freedom when using XFEM.
+
+## Usage
+
+The best way to learn how to use FFMcracking is by following the provided examples:
+
+1. **[Example 1](https://github.com/israelgarcia86/FFMcracking/tree/main/samples/sample1_OpenHoleCrackFixed)**  
+   - Computes the load factor required for a **fixed crack geometry** at initiation.
+   
+2. **[Example 2](https://github.com/israelgarcia86/FFMcracking/tree/main/samples/sample2_OpenHoleBasicOptimLenght)**  
+   - Uses **Bayesian Optimization** to determine the **critical load factor** for a problem where only the crack length is unknown.
+
+*More examples will be added as new features are developed.*
+
+## How to Cite FFMcracking
+
+If you use `FFMcracking` in your research, please cite the following reference:
 
 ```
-curl -s https://sourcerer.io/app/install | bash
+@article{garcia2025,
+  year = {2025},
+  volume = {1},
+  number = {},
+  pages = {},
+  author = {Israel G. García and Vladislav Manti\v{c}},
+  title = {Implementación en un código comercial del Criterio Acoplado de la Mecánica de la Fractura Finita},
+  journal = {Revista del Grupo Español de Fractura}
+}
 ```
+# How to contribute
 
-To run wizard use `sourcerer` command for macOS and Linux, `java -jar sourcerer.jar` in folder `Users\user\.sourcerer` for Windows.
+If you are interested in collaborating, we are willing to developing joints collaborations for:
 
-Use parameter `--help` for additional info.
+- Developing new features from the list (see Features section or issues).
+- Proposal of new features.
+- Testing the script with new applications.
 
+If you could be interested to collaborate with us, you have several options:
 
-Internals
-=========
-The app looks at repos locally on your machine, and then sends stats to sourcerer.io. The best way to verify is to look at the code. Protobuf messages declared in [src/main/proto/sourcerer.proto](https://github.com/sourcerer-io/sourcerer-app/blob/develop/src/main/proto/sourcerer.proto) is a good start as it describes the client-server protocol.
-The Sourcerer app does **NOT** upload source code anywhere, and it **NEVER** will.
+- Contact the the project administrator:  
+[Israel G. García](mailto:israelgarcia@us.es) with your ideas, motivation, etc.
+- Open an issue.
+- Fork the reposiroty and PR with your contribution.
 
-FAQ
-===
-### How can I process private repos?
-We process only public repos using GitHub OAuth. To process private repos you need to run sourcerer app locally. See [Get started](#get-started) for instructions. Sourcerer app sends only statistical information to our servers and never sends code.
+# Contact
 
-### Why do you need GitHub permissions?
-We use emails to identify commit authorship, read orgs access to get list of public repositories that you've contributed to. You also need to grant access to read this public information from an organization.
-
-### Other questions
-See [sourcerer.io/faq](https://sourcerer.io/faq).
-
-Contributing
-============
-We love contributions! Check out the [Contribution guide](https://github.com/sourcerer-io/sourcerer-app/blob/master/CONTRIBUTING.md) for more information. Simplest and really helpful for the community would be contribution meta information to our [supported libraries list](https://github.com/sourcerer-io/awesome-libraries). If you an author of a library you show definitely add yours to the list or you can help to someone whose work you use.
-
-[![0](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/0)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/0)
-[![1](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/1)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/1)
-[![2](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/2)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/2)
-[![3](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/3)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/3)
-[![4](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/4)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/4)
-[![5](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/5)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/5)
-[![6](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/6)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/6)
-[![7](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/images/7)](https://sourcerer.io/fame/sergey48k/sourcerer-io/sourcerer-app/links/7)
-
-Build
-=====
-To build and run this application locally, you'll need latest versions of Git, Gradle and JDK installed on your computer. From your command line:
-
-```
-# Clone this repository
-$ git clone https://github.com/sourcerer-io/sourcerer-app.git
-
-# Go into the repository
-$ cd sourcerer-app
-
-# Build
-$ gradle build
-
-# Run the app
-$ java -jar build/libs/sourcerer-app.jar
-```
-
-License
-=======
-Sourcerer is under the MIT license. See the [LICENSE](https://github.com/sourcerer-io/sourcerer-app/blob/develop/LICENSE.md) for more information.
-
-Links
-=====
-* [Sourcerer Site](https://sourcerer.io/)
-* [Sourcerer Blog](https://blog.sourcerer.io)
-* [Follow Sourcerer on Twitter](https://twitter.com/sourcerer_io)
-* [Follow Sourcerer on Facebook](https://www.facebook.com/sourcerer.io/)
+For questions or contributions, please contact the project administrator:  
+[Israel G. García](mailto:israelgarcia@us.es)  
