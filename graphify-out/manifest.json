@@ -1,0 +1,326 @@
+{
+  "samples/sample1_OpenHoleCrackFixed/example1.py": {
+    "mtime": 1794162848.2156906,
+    "seen": 1794163642.839367,
+    "ast_hash": "7a79de6e475942574a193f98afa034f0",
+    "semantic_hash": ""
+  },
+  "samples/sample2_OpenHoleBasicOptimLenght/example2.py": {
+    "mtime": 1794162848.3025482,
+    "seen": 1794163642.8393857,
+    "ast_hash": "4f2df15e018dc67d06b4c86a847fbd5a",
+    "semantic_hash": ""
+  },
+  "src/FFMcracking.py": {
+    "mtime": 1794162848.303548,
+    "seen": 1794163642.8393948,
+    "ast_hash": "7ce07c292382b746e792ab5b311b6dc0",
+    "semantic_hash": ""
+  },
+  "src/modOptimization.py": {
+    "mtime": 1794162848.3045478,
+    "seen": 1794163642.8394039,
+    "ast_hash": "d4528b132d69ea5c33d83e72a87ccab8",
+    "semantic_hash": ""
+  },
+  ".config/README.md": {
+    "mtime": 1794162848.1193964,
+    "seen": 1794163642.8394098,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/CODE_OF_CONDUCT.md": {
+    "mtime": 1794162848.1204941,
+    "seen": 1794163642.8394144,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/CONTRIBUTING.md": {
+    "mtime": 1794162848.1214943,
+    "seen": 1794163642.8394191,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/README.md": {
+    "mtime": 1794162848.1224983,
+    "seen": 1794163642.8394227,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/bug_report.md": {
+    "mtime": 1794162848.1224983,
+    "seen": 1794163642.8394268,
+    "ast_hash": "7eee713ed8edcde08fabb817c5c4423f",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/feature_request.md": {
+    "mtime": 1794162848.1234937,
+    "seen": 1794163642.83943,
+    "ast_hash": "6efa7318ec2fce0f9669d99f6a6a889e",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/question.md": {
+    "mtime": 1794162848.1244934,
+    "seen": 1794163642.839434,
+    "ast_hash": "40e158dfcb3a2c78588cd49238e1269e",
+    "semantic_hash": ""
+  },
+  ".github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md": {
+    "mtime": 1794162848.125496,
+    "seen": 1794163642.8394384,
+    "ast_hash": "238ed52dff5614e91449928194599056",
+    "semantic_hash": ""
+  },
+  ".github/PULL_REQUEST_TEMPLATE/README.md": {
+    "mtime": 1794162848.126002,
+    "seen": 1794163642.839442,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/SECURITY.md": {
+    "mtime": 1794162848.126002,
+    "seen": 1794163642.8394449,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/SUPPORT.md": {
+    "mtime": 1794162848.1270094,
+    "seen": 1794163642.8394482,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1794162848.1280088,
+    "seen": 1794163642.8394513,
+    "ast_hash": "5c07d6e0de5b227a23d9cded64c1f970",
+    "semantic_hash": ""
+  },
+  "doc/README.md": {
+    "mtime": 1794162848.1280088,
+    "seen": 1794163642.8394547,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "samples/README.md": {
+    "mtime": 1794162848.1315207,
+    "seen": 1794163642.8394582,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "samples/sample1_OpenHoleCrackFixed/README.md": {
+    "mtime": 1794162848.214692,
+    "seen": 1794163642.8394616,
+    "ast_hash": "fde259752e5d442474f2f5aaf6d0643c",
+    "semantic_hash": ""
+  },
+  "samples/sample2_OpenHoleBasicOptimLenght/README.md": {
+    "mtime": 1794162848.3015482,
+    "seen": 1794163642.8394647,
+    "ast_hash": "c80bc95847025ff9d2cc58126a362a20",
+    "semantic_hash": ""
+  },
+  "test/README.md": {
+    "mtime": 1794162848.305549,
+    "seen": 1794163642.839468,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "images/Objectives.png": {
+    "mtime": 1794162848.130521,
+    "seen": 1794163642.8394716,
+    "ast_hash": "7105f070f154a78f0fb6758af036c7c9",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1794164397.2537103,
+    "seen": 1794164402.985562,
+    "ast_hash": "c41afe106b105475b0050c18671932ed",
+    "semantic_hash": ""
+  },
+  "wiki/README.md": {
+    "mtime": 1794164125.4308653,
+    "seen": 1794164402.985569,
+    "ast_hash": "2b406389dedf67c4328df051cf360fb9",
+    "semantic_hash": ""
+  },
+  "wiki/en/index.md": {
+    "mtime": 1794164285.8255422,
+    "seen": 1794164402.985582,
+    "ast_hash": "d516ae7d70ce9682e443e39db94bceb5",
+    "semantic_hash": ""
+  },
+  "wiki/es/index.md": {
+    "mtime": 1794164145.9847991,
+    "seen": 1794164402.985595,
+    "ast_hash": "f66e65ec8cbe52cd8dada2c68f18276d",
+    "semantic_hash": ""
+  },
+  "wiki/en/01-fundamentals/01-introduction.md": {
+    "mtime": 1794164294.2986658,
+    "seen": 1794164402.9855707,
+    "ast_hash": "06fdd180e977ef1ac0c43e6b187f07ac",
+    "semantic_hash": ""
+  },
+  "wiki/en/01-fundamentals/02-finite-fracture-mechanics.md": {
+    "mtime": 1794164304.5992253,
+    "seen": 1794164402.9855716,
+    "ast_hash": "2a7ea0057ee3666dd33bb4cd7edf2caf",
+    "semantic_hash": ""
+  },
+  "wiki/en/02-architecture/01-system-design.md": {
+    "mtime": 1794164310.7020936,
+    "seen": 1794164402.9855723,
+    "ast_hash": "3da7af80289e94ac50af7438129a1955",
+    "semantic_hash": ""
+  },
+  "wiki/en/02-architecture/02-simulation-lifecycle.md": {
+    "mtime": 1794164322.2159429,
+    "seen": 1794164402.985573,
+    "ast_hash": "14b865e3b705557ec5f806d63f8828be",
+    "semantic_hash": ""
+  },
+  "wiki/en/03-modules/01-module-ffmcracking.md": {
+    "mtime": 1794164329.8466966,
+    "seen": 1794164402.985574,
+    "ast_hash": "fc6389e4e7c5a6a3b5659199344413a4",
+    "semantic_hash": ""
+  },
+  "wiki/en/03-modules/02-stress-extraction.md": {
+    "mtime": 1794164336.8459127,
+    "seen": 1794164402.985575,
+    "ast_hash": "1aff1e55a75704ae90dbc8f75f712d54",
+    "semantic_hash": ""
+  },
+  "wiki/en/03-modules/03-xfem-method-and-energy.md": {
+    "mtime": 1794164344.4483345,
+    "seen": 1794164402.9855754,
+    "ast_hash": "05db831c3a85251a034bf9f5d1cfb431",
+    "semantic_hash": ""
+  },
+  "wiki/en/03-modules/04-optimization-module.md": {
+    "mtime": 1794164353.6449697,
+    "seen": 1794164402.9855762,
+    "ast_hash": "88a7e05e1b4d1c9f7d01acbf38d9a51c",
+    "semantic_hash": ""
+  },
+  "wiki/en/04-guides-and-examples/01-requirements-and-setup.md": {
+    "mtime": 1794164359.408062,
+    "seen": 1794164402.985577,
+    "ast_hash": "c389e58dc1ae142d5eafb05cb689ae23",
+    "semantic_hash": ""
+  },
+  "wiki/en/04-guides-and-examples/02-example-1-fixed-crack.md": {
+    "mtime": 1794164366.391316,
+    "seen": 1794164402.985578,
+    "ast_hash": "51599aec64fb95f89391267684104435",
+    "semantic_hash": ""
+  },
+  "wiki/en/04-guides-and-examples/03-example-2-length-optimization.md": {
+    "mtime": 1794164373.3973553,
+    "seen": 1794164402.9855788,
+    "ast_hash": "5edddd489c247bab8398d8731cba50d2",
+    "semantic_hash": ""
+  },
+  "wiki/en/05-faq-and-development/01-troubleshooting-faq.md": {
+    "mtime": 1794164379.1735106,
+    "seen": 1794164402.9855795,
+    "ast_hash": "8e72664d1e4c738bdda94b0bd5bca672",
+    "semantic_hash": ""
+  },
+  "wiki/en/05-faq-and-development/02-development-and-extensions.md": {
+    "mtime": 1794164384.8393044,
+    "seen": 1794164402.9855802,
+    "ast_hash": "fa24c89773b7734d7f69e0b0408adaaf",
+    "semantic_hash": ""
+  },
+  "wiki/en/_sidebar.md": {
+    "mtime": 1794164277.2876287,
+    "seen": 1794164402.9855812,
+    "ast_hash": "7eff07574674708dc93303839a7c69d8",
+    "semantic_hash": ""
+  },
+  "wiki/es/01-fundamentos/01-introduccion.md": {
+    "mtime": 1794164156.6913927,
+    "seen": 1794164402.985583,
+    "ast_hash": "2d9b4ca0a5194571779458370fbc365b",
+    "semantic_hash": ""
+  },
+  "wiki/es/01-fundamentos/02-mecanica-fractura-finita.md": {
+    "mtime": 1794164170.1519754,
+    "seen": 1794164402.985584,
+    "ast_hash": "b7e00e6dc7501002cdb43f03f2e21bc1",
+    "semantic_hash": ""
+  },
+  "wiki/es/02-arquitectura/01-diseno-general.md": {
+    "mtime": 1794164178.6756682,
+    "seen": 1794164402.985585,
+    "ast_hash": "fe200999f3aea1f3487b1d7ab4cbd10e",
+    "semantic_hash": ""
+  },
+  "wiki/es/02-arquitectura/02-ciclo-de-simulacion.md": {
+    "mtime": 1794164189.3279085,
+    "seen": 1794164402.9855862,
+    "ast_hash": "f9c16a508cab122015daa4b3162b204c",
+    "semantic_hash": ""
+  },
+  "wiki/es/03-modulos/01-modulo-ffmcracking.md": {
+    "mtime": 1794164198.7879345,
+    "seen": 1794164402.985587,
+    "ast_hash": "afb2a7a2f9ceb0c9f794331bbb410188",
+    "semantic_hash": ""
+  },
+  "wiki/es/03-modulos/02-extraccion-tensiones.md": {
+    "mtime": 1794164208.4176714,
+    "seen": 1794164402.9855876,
+    "ast_hash": "c0b7e09f10f98d624fc65e4d38805059",
+    "semantic_hash": ""
+  },
+  "wiki/es/03-modulos/03-metodo-xfem-y-energia.md": {
+    "mtime": 1794164217.3469877,
+    "seen": 1794164402.9855886,
+    "ast_hash": "a96b57250a8d27de25d934993202b23d",
+    "semantic_hash": ""
+  },
+  "wiki/es/03-modulos/04-modulo-optimizacion.md": {
+    "mtime": 1794164227.483022,
+    "seen": 1794164402.9855893,
+    "ast_hash": "1a186d7599b843115969483e7e367aa3",
+    "semantic_hash": ""
+  },
+  "wiki/es/04-guias-y-ejemplos/01-requisitos-e-instalacion.md": {
+    "mtime": 1794164235.441211,
+    "seen": 1794164402.98559,
+    "ast_hash": "b8bd777cf6ab3d233d01de57262aefa1",
+    "semantic_hash": ""
+  },
+  "wiki/es/04-guias-y-ejemplos/02-ejemplo-1-grieta-fija.md": {
+    "mtime": 1794164245.2454448,
+    "seen": 1794164402.9855907,
+    "ast_hash": "a13894a279f07b0ae55b026bd4055edb",
+    "semantic_hash": ""
+  },
+  "wiki/es/04-guias-y-ejemplos/03-ejemplo-2-optimizacion-longitud.md": {
+    "mtime": 1794164254.6366968,
+    "seen": 1794164402.9855917,
+    "ast_hash": "1b8e96d53e422a13d4048b16ec4132a5",
+    "semantic_hash": ""
+  },
+  "wiki/es/05-faq-y-desarrollo/01-resolucion-problemas-faq.md": {
+    "mtime": 1794164262.0653677,
+    "seen": 1794164402.9855924,
+    "ast_hash": "f816dfe4118102bdd5a851c4781e755a",
+    "semantic_hash": ""
+  },
+  "wiki/es/05-faq-y-desarrollo/02-guia-desarrollo-y-extensiones.md": {
+    "mtime": 1794164270.3253224,
+    "seen": 1794164402.985593,
+    "ast_hash": "532c13923a959699f9dd5982df8873d7",
+    "semantic_hash": ""
+  },
+  "wiki/es/_sidebar.md": {
+    "mtime": 1794164133.032341,
+    "seen": 1794164402.9855938,
+    "ast_hash": "0324528f4b4c0702937c26ae9881f4fc",
+    "semantic_hash": ""
+  }
+}

@@ -1,0 +1,218 @@
+{
+  "samples/sample1_OpenHoleCrackFixed/example1.py": {
+    "mtime": 1794162848.2156906,
+    "seen": 1794163642.839367,
+    "ast_hash": "7a79de6e475942574a193f98afa034f0",
+    "semantic_hash": ""
+  },
+  "samples/sample2_OpenHoleBasicOptimLenght/example2.py": {
+    "mtime": 1794162848.3025482,
+    "seen": 1794163642.8393857,
+    "ast_hash": "4f2df15e018dc67d06b4c86a847fbd5a",
+    "semantic_hash": ""
+  },
+  "src/FFMcracking.py": {
+    "mtime": 1794162848.303548,
+    "seen": 1794163642.8393948,
+    "ast_hash": "7ce07c292382b746e792ab5b311b6dc0",
+    "semantic_hash": ""
+  },
+  "src/modOptimization.py": {
+    "mtime": 1794162848.3045478,
+    "seen": 1794163642.8394039,
+    "ast_hash": "d4528b132d69ea5c33d83e72a87ccab8",
+    "semantic_hash": ""
+  },
+  ".config/README.md": {
+    "mtime": 1794162848.1193964,
+    "seen": 1794163642.8394098,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/CODE_OF_CONDUCT.md": {
+    "mtime": 1794162848.1204941,
+    "seen": 1794163642.8394144,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/CONTRIBUTING.md": {
+    "mtime": 1794162848.1214943,
+    "seen": 1794163642.8394191,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/README.md": {
+    "mtime": 1794162848.1224983,
+    "seen": 1794163642.8394227,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/bug_report.md": {
+    "mtime": 1794162848.1224983,
+    "seen": 1794163642.8394268,
+    "ast_hash": "7eee713ed8edcde08fabb817c5c4423f",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/feature_request.md": {
+    "mtime": 1794162848.1234937,
+    "seen": 1794163642.83943,
+    "ast_hash": "6efa7318ec2fce0f9669d99f6a6a889e",
+    "semantic_hash": ""
+  },
+  ".github/ISSUE_TEMPLATE/question.md": {
+    "mtime": 1794162848.1244934,
+    "seen": 1794163642.839434,
+    "ast_hash": "40e158dfcb3a2c78588cd49238e1269e",
+    "semantic_hash": ""
+  },
+  ".github/PULL_REQUEST_TEMPLATE/PULL_REQUEST_TEMPLATE.md": {
+    "mtime": 1794162848.125496,
+    "seen": 1794163642.8394384,
+    "ast_hash": "238ed52dff5614e91449928194599056",
+    "semantic_hash": ""
+  },
+  ".github/PULL_REQUEST_TEMPLATE/README.md": {
+    "mtime": 1794162848.126002,
+    "seen": 1794163642.839442,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/SECURITY.md": {
+    "mtime": 1794162848.126002,
+    "seen": 1794163642.8394449,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  ".github/SUPPORT.md": {
+    "mtime": 1794162848.1270094,
+    "seen": 1794163642.8394482,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "README.md": {
+    "mtime": 1794162848.1280088,
+    "seen": 1794163642.8394513,
+    "ast_hash": "5c07d6e0de5b227a23d9cded64c1f970",
+    "semantic_hash": ""
+  },
+  "doc/README.md": {
+    "mtime": 1794162848.1280088,
+    "seen": 1794163642.8394547,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "samples/README.md": {
+    "mtime": 1794162848.1315207,
+    "seen": 1794163642.8394582,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "samples/sample1_OpenHoleCrackFixed/README.md": {
+    "mtime": 1794162848.214692,
+    "seen": 1794163642.8394616,
+    "ast_hash": "fde259752e5d442474f2f5aaf6d0643c",
+    "semantic_hash": ""
+  },
+  "samples/sample2_OpenHoleBasicOptimLenght/README.md": {
+    "mtime": 1794162848.3015482,
+    "seen": 1794163642.8394647,
+    "ast_hash": "c80bc95847025ff9d2cc58126a362a20",
+    "semantic_hash": ""
+  },
+  "test/README.md": {
+    "mtime": 1794162848.305549,
+    "seen": 1794163642.839468,
+    "ast_hash": "d41d8cd98f00b204e9800998ecf8427e",
+    "semantic_hash": ""
+  },
+  "images/Objectives.png": {
+    "mtime": 1794162848.130521,
+    "seen": 1794163642.8394716,
+    "ast_hash": "7105f070f154a78f0fb6758af036c7c9",
+    "semantic_hash": ""
+  },
+  "AGENTS.md": {
+    "mtime": 1794163910.3933914,
+    "seen": 1794163915.5626163,
+    "ast_hash": "55e8f5c6cd521ef3d9f3b965ad6f1d2a",
+    "semantic_hash": ""
+  },
+  "wiki/README.md": {
+    "mtime": 1794163737.5196316,
+    "seen": 1794163915.5626273,
+    "ast_hash": "b1a5410844d477b402af683687e82762",
+    "semantic_hash": ""
+  },
+  "wiki/en/architecture.md": {
+    "mtime": 1794163842.404577,
+    "seen": 1794163915.5626285,
+    "ast_hash": "97578c8604a08937b02e00b10b6a2de9",
+    "semantic_hash": ""
+  },
+  "wiki/en/coupled-criterion.md": {
+    "mtime": 1794163855.5157745,
+    "seen": 1794163915.56263,
+    "ast_hash": "fe8dd2be8a0124bf937dd459ffba9e94",
+    "semantic_hash": ""
+  },
+  "wiki/en/examples-and-usage.md": {
+    "mtime": 1794163888.6926663,
+    "seen": 1794163915.562631,
+    "ast_hash": "cdea8a58b84be139a6cde6ee378a161d",
+    "semantic_hash": ""
+  },
+  "wiki/en/index.md": {
+    "mtime": 1794163831.3211353,
+    "seen": 1794163915.562632,
+    "ast_hash": "debd9e076b9ca7ed7e3c82f80797bfc2",
+    "semantic_hash": ""
+  },
+  "wiki/en/module-ffmcracking.md": {
+    "mtime": 1794163867.0879512,
+    "seen": 1794163915.5626333,
+    "ast_hash": "87f452cedf8ee0a6f1dd21c9a77e53f6",
+    "semantic_hash": ""
+  },
+  "wiki/en/module-optimization.md": {
+    "mtime": 1794163878.4893713,
+    "seen": 1794163915.5626345,
+    "ast_hash": "443ff728fe38ffcf0cdec3cbe2b080aa",
+    "semantic_hash": ""
+  },
+  "wiki/es/arquitectura.md": {
+    "mtime": 1794163764.4743638,
+    "seen": 1794163915.5626354,
+    "ast_hash": "adb64c0442af8364b1c7dbcf262881e5",
+    "semantic_hash": ""
+  },
+  "wiki/es/criterio-acoplado.md": {
+    "mtime": 1794163778.619141,
+    "seen": 1794163915.5626369,
+    "ast_hash": "e81517fd852f20343392cccf614d17f8",
+    "semantic_hash": ""
+  },
+  "wiki/es/ejemplos-y-uso.md": {
+    "mtime": 1794163822.665677,
+    "seen": 1794163915.5626378,
+    "ast_hash": "af779f16489c59af9b4104af442a00f3",
+    "semantic_hash": ""
+  },
+  "wiki/es/index.md": {
+    "mtime": 1794163750.4922655,
+    "seen": 1794163915.562639,
+    "ast_hash": "6e47816568301fb1d96c24ca6b7dcf72",
+    "semantic_hash": ""
+  },
+  "wiki/es/modulo-ffmcracking.md": {
+    "mtime": 1794163794.471092,
+    "seen": 1794163915.5626404,
+    "ast_hash": "6794d99e23f138c3f16d3a8aa06ccabf",
+    "semantic_hash": ""
+  },
+  "wiki/es/modulo-optimizacion.md": {
+    "mtime": 1794163808.9635212,
+    "seen": 1794163915.5626414,
+    "ast_hash": "c04bde18b502be0ad09471f8a55cc390",
+    "semantic_hash": ""
+  }
+}
