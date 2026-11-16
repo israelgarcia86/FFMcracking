@@ -30,9 +30,9 @@ class FFM_Material:
 ```
 
 El principio del XFEM como separador geometrico:
-Abaqus exige obligatoriamente definir un modelo de dano constitutivo (MaxpsDamageInitiation y DamageEvolution) para habilitar una grieta enriquecida con XFEM. Sin embargo, en la Mecanica de la Fractura Finita, no se desea que Abaqus decida el avance del dano mediante leyes cohesivas locales; toda la fisica de fractura la gobierna el Criterio Acoplado en el post-proceso.
+El procedimiento configura `MaxpsDamageInitiation` y `DamageEvolution` para la grieta XFEM y evalúa el criterio acoplado en el posproceso. La adecuación de esta configuración depende del modelo y debe verificarse para cada aplicación.
 
-Para resolver esto, FFMcracking asigna una tension de dano `maxsigma` de valor deliberadamente desproporcionado (50000 billones de veces mayor que sigmac). Como consecuencia, el material nunca alcanza dicha tension de fallo en el solver, el dano no se activa y la grieta XFEM se comporta de forma exacta como una discontinuidad puramente elastica con caras libres de tension.
+FFMcracking fija `maxsigma = 5000e10 * sigmac`, equivalente a `5 × 10^13 * sigmac`, con el fin de retrasar la activación del daño en las cargas estudiadas. El resultado debe comprobarse para cada modelo; no se garantiza que el umbral sea inalcanzable en cualquier caso.
 
 Nota sobre Modo Mixto:
 En la version actual del codigo, `sigmac` y `Gc1` son las propiedades activas en los calculos (Modo I puro). Los atributos `tauc` y `Gc2` quedan registrados en la clase como interfaz preparada para futuras extensiones hacia criterios cuadraticos o tensocortantes.
@@ -56,19 +56,15 @@ Encapsula la configuracion del modelo de calculo y proporciona metodos de acceso
 
 ```python
 class FFM_InputModel:
-    def __init__(self, inpFilePath, inpFileName, nameStep, outRoute, material):
+    def __init__(self, inpFilePath, inpFileName, nameStep, outRoute, material_model):
         self.inpFilePath = inpFilePath
         self.inpFileName = inpFileName
         self.nameStep = nameStep
         self.outRoute = outRoute
-        self.material = material
+        self.material_model = material_model
 ```
 
-Metodos auxiliares:
-- `extract_nameStep()`: Devuelve el nombre del paso de carga de Abaqus donde estan aplicadas las cargas a escalar.
-- `extract_outRoute()`: Devuelve la ruta absoluta del directorio donde se escribiran los resultados.
-- `extract_material()`: Devuelve el objeto `FFM_Material`.
-- `extract_inpFileTotal()`: Concatena la ruta y el nombre del archivo de entrada `.inp`.
+Métodos auxiliares: `extract_sigmac()`, `extract_Gc()`, `extract_maxsigma()` y `extract_maxd()` devuelven propiedades del material. Las rutas y el paso se almacenan como atributos.
 
 ================================================================================
 3. FUNCION PRINCIPAL: Compute_crit_factor_FFM
@@ -89,7 +85,7 @@ Retorno:
 
 Secuencia operativa de la funcion:
 1. Configuracion inicial del entorno:
-   Importa librerias de Abaqus (`abaqus`, `odbAccess`, `caeModules`), cierra bases abiertas preventivamente (`mdb.close()`) y ajusta el directorio de trabajo a `outRoute`.
+   Las bibliotecas de Abaqus se importan al cargar el módulo. La función cierra la base de modelos activa mediante `mdb.close()` y cambia el directorio de trabajo a `outRoute`.
 2. Evaluacion del Criterio Tensional (Modelo sin grieta):
    - Comprueba si existe `<jobName>-without.odb`. Si no existe, genera el modelo en `mdb`, inserta la solicitud de resultados `EC0` y ejecuta el job.
    - Abre la base de datos ODB, extrae las tensiones sobre el camino de la grieta y calcula `t_SC = sigmac / min(sigma_nn)`.

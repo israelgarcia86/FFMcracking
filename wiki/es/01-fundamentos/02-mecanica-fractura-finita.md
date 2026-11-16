@@ -60,10 +60,7 @@ En notacion matematica formal:
 t_{SC}(l) = \frac{\sigma_c}{\min_{x \in [0, l]} \sigma_{nn}(x)}
 \]
 
-Comportamiento respecto a la longitud l:
-En concentradores de tension, la tension normal maxima se alcanza en el borde de la entalla y decae monotona y rapidamente hacia el interior del solido. Por tanto, al aumentar la longitud l, el valor de min(sigma_nn) disminuye estrictamente. Como consecuencia directa:
-- t_SC(l) es una funcion estrictamente creciente con respecto a l.
-- A mayor tamano de grieta candidata, mayor es la carga necesaria para satisfacer la condicion tensional en su vertice exterior.
+Comportamiento respecto a la longitud: al ampliar un trayecto anidado, el mínimo de tensión normal no puede aumentar. Si ese mínimo es positivo, el factor tensional correspondiente no disminuye. La forma del perfil depende de la geometría y las cargas; no se supone que sea estrictamente monótono.
 
 2.2. Variante promediada (Cornetti et al., 2006)
 --------------------------------------------------------------------------------
@@ -106,7 +103,7 @@ t_{EC}(l) = \sqrt{\frac{DE}{|RE|}} = \sqrt{\frac{G_c \cdot l}{|RE|}}
 
 3.2. Evaluacion de RE mediante el Teorema del Trabajo Reciproco de Betti
 --------------------------------------------------------------------------------
-En lugar de integrar densidades de energia de deformacion sobre toda la malla de elementos finitos, FFMcracking aplica el Teorema de Reciprocidad de Betti (Garcia, 2014, cap. 3). Esto permite calcular RE de forma exacta evaluando unicamente fuerzas nodales y desplazamientos en el contorno con condiciones de contorno (BCs):
+En lugar de integrar densidades de energia de deformacion sobre toda la malla de elementos finitos, FFMcracking aplica el Teorema de Reciprocidad de Betti (Garcia, 2014, cap. 3). El código evalúa RE a partir de fuerzas y desplazamientos nodales asociados a las condiciones de contorno, bajo las hipótesis del modelo; el resultado depende también de la discretización:
 
   RE = 0.5 * sum_{i en BCs} [ Ux2(i)*Fx1(i) + Uy2(i)*Fy1(i) - Ux1(i)*Fx2(i) - Uy1(i)*Fy2(i) ]
 
@@ -115,8 +112,8 @@ donde:
 - Subindice 2: valores del estado con grieta (obtenidos del trabajo -with.odb).
 
 Comportamiento respecto a la longitud l:
-- Para grietas infinitesimales (l -> 0), la energia liberada RE tiende a cero mas rapido que la longitud (en entallas lisas RE crece tipicamente como l^2). En consecuencia, DE / RE -> infinito cuando l -> 0, por lo que t_EC tiende a infinito para longitudes muy cortas.
-- Para longitudes mayores, t_EC disminuye bruscamente y alcanza un minimo antes de volver a crecer con pendientes suaves.
+- En algunos casos con tensión finita en el origen, la energía liberada tiende a cero más rápidamente que la longitud al disminuir l. Bajo esa hipótesis, DE / |RE| y el factor energético crecen para grietas muy cortas. Este comportamiento depende del campo de tensiones y de la geometría.
+- Para longitudes mayores, la evolución de t_EC depende de la geometría, las cargas y la energía liberada; no se presupone una forma general de la curva.
 
 ================================================================================
 4. ACOPLAMIENTO Y DETERMINACION DE LA LONGITUD CRITICA lc
@@ -131,7 +128,7 @@ Dado que el solido rompera bajo la carga mas baja posible que satisfaga la fisic
   lc = argmin_{l > 0} t_CC(l)
   tc = t_CC(lc)
 
-Representacion grafica en texto:
+Representación esquemática de un caso con cruce interior (no general):
 
   Factor t
      ^
@@ -151,9 +148,8 @@ Interpretacion por regiones:
    Aunque la tension media es muy alta cerca de la entalla (t_SC bajo), la pieza no tiene suficiente energia elastica para formar la superficie de grieta. t_EC > t_SC; la rotura no puede ocurrir con una longitud tan pequena.
 2. Region l > lc (dominada por tension):
    Hay energia disponible de sobra para crear la grieta, pero la tension normal en el extremo alejado es inferior a la resistencia sigma_c. t_SC > t_EC; la rotura no puede extenderse hasta alli sin aumentar la carga exterior.
-3. Longitud critica lc:
-   Es el tamano exacto del salto instantaneo de fractura predicho por la Mecanica de la Fractura Finita. En problemas con tension monotona, coincide con el punto de corte exacto:
-   t_SC(lc) = t_EC(lc)
+3. Longitud crítica lc:
+   Es la longitud que minimiza el factor acoplado dentro del dominio considerado. La coincidencia de ambos criterios puede darse en un cruce interior adecuado, pero no está garantizada: el mínimo también puede estar en un extremo o estar dominado por uno de ellos.
 
 ================================================================================
 5. LONGITUD CARACTERISTICA Y NUMERO DE FRAGILIDAD
@@ -172,10 +168,10 @@ A partir de esta longitud y de la dimension caracteristica del componente estruc
 Este numero gobierna el regimen de fallo del componente:
 - gamma >> 1 (Componentes pequenos o muy fragiles):
   El criterio energetico domina sobre casi todo el rango; el comportamiento se aproxima a la Mecanica de Fractura Lineal (MFEL).
-- gamma << 1 (Componentes grandes o materiales de alta tenacidad):
+- gamma << 1 (Componentes grandes para propiedades de material dadas):
   El criterio tensional domina; la carga critica se aproxima a los limites convencionales de resistencia elastica o plastico.
 - gamma approx 1:
-  Regimen intermedio de acoplamiento fuerte, donde ninguna de las dos teorias clasicas por separado es capaz de predecir la rotura y el uso de FFMcracking resulta indispensable.
+  Regimen intermedio de acoplamiento fuerte, donde ninguna de las dos teorias clasicas por separado es capaz de predecir la rotura y el criterio acoplado puede ser útil para su estudio.
 
 ================================================================================
 Navegacion: [Anterior: Vision General](01-introduccion.md) | [Portada Wiki](../index.md) | [Siguiente: Diseno General](../02-arquitectura/01-diseno-general.md)

@@ -8,17 +8,14 @@ Navegacion: [Portada Wiki](../index.md) > [03. Modulos](01-modulo-ffmcracking.md
 
 Para evaluar el decremento de energia potencial (-Delta Pi), es necesario conocer la respuesta elastica de la estructura tras la aparicion de la grieta candidata. 
 
-En enfoques convencionales de elementos finitos, evaluar distintas longitudes de grieta exigiria remallar conformalmente la geometria en cada iteracion. FFMcracking elude por completo el remallado empleando el Metodo de los Elementos Finitos Extendidos (XFEM).
+En enfoques convencionales de elementos finitos, evaluar distintas longitudes de grieta exigiria remallar conformalmente la geometria en cada iteracion. FFMcracking emplea el Método de los Elementos Finitos Extendidos (XFEM) para representar la grieta sin una malla conforme a sus caras.
 
 Mediante la particion de la unidad, XFEM enriquece los grados de libertad de los elementos que son atravesados por la discontinuidad:
 - Funciones de salto de Heaviside: representan el salto cinematico de desplazamientos entre las caras opuestas de la fisura.
 - Funciones asintoticas del vertice: modelan el campo singular elastoestatico en el frente de grieta.
 
-Papel conceptual de XFEM: "Separador geometrico", no ley de dano.
-El software introduce propiedades de dano ficticias deliberadamente inalcanzables (`maxsigma = 5000e10 * sigmac`). Por consiguiente:
-- El material permanece rigurosamente en regimen elastico lineal.
-- Las caras de la grieta quedan completamente libres de tracciones superficiales.
-- XFEM actua unicamente como un mecanismo cinematico que introduce la hendidura geometrica sin coste de remallado.
+Papel conceptual de XFEM:
+El código define umbrales elevados de iniciación y evolución de daño (`maxsigma = 5000e10 * sigmac`). La intención es que la grieta predefinida actúe como una discontinuidad durante el análisis, mientras el criterio acoplado se evalúa en el posproceso. La validez de esta aproximación, incluidas las tracciones de las caras y la ausencia de daño, debe comprobarse para las cargas y el modelo empleados.
 
 ================================================================================
 2. RUTINA DE INSERCION: generate_crack

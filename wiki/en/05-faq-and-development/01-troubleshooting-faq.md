@@ -15,17 +15,7 @@ Cause:
 If a previous simulation was interrupted abruptly (Ctrl+C, syntax error, or crash), Abaqus leaves a `.lck` lock file that prevents concurrent file access.
 
 Solution:
-Delete all `.lck` files from `compFiles/` before re-running:
-
-On Windows (PowerShell):
-```powershell
-Get-ChildItem -Path compFiles -Filter *.lck | Remove-Item -Force
-```
-
-On Linux (Bash):
-```bash
-rm -f compFiles/*.lck
-```
+First confirm that no Abaqus job or session is using the ODB. Only if the lock is stale after an interruption, close the relevant sessions and remove the specific `.lck` file before retrying.
 
 1.2. Multiplier t_SC Returns 'inf' or Negative Values
 --------------------------------------------------------------------------------
@@ -57,7 +47,7 @@ Reciprocal work RE computes differences between cracked and uncracked boundary r
 
 Solution:
 - Ensure minimum search bounds (L_min) are at least as large as one element size at the crack root.
-- Set Abaqus jobs to solve with double precision (`precision=DOUBLE_PLUS_PACK`).
+- Study mesh and numerical-precision sensitivity and check the solver configuration for the case. The current code requests `nodalOutputPrecision=FULL`, which does not by itself set solver precision.
 
 1.5. CAE Viewport or Session Collisions
 --------------------------------------------------------------------------------
@@ -68,7 +58,7 @@ Cause:
 Interactive session crashes may leave orphaned objects in Abaqus GUI session memory.
 
 Solution:
-Always execute via non-interactive mode (`abaqus cae noGUI=...`), which runs in a clean, isolated session environment.
+A new Abaqus session, including a `abaqus cae noGUI=...` run, can help isolate residual session objects. Also check that files are not open in another session.
 
 ================================================================================
 Navigation: [Previous: Example 2](../04-guides-and-examples/03-example-2-length-optimization.md) | [Wiki Home](../index.md) | [Next: Developer Guide](02-development-and-extensions.md)

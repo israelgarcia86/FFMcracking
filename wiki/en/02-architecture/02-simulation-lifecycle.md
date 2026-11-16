@@ -120,7 +120,7 @@ Physical justification:
 Stress and displacement fields in the uncracked body depend exclusively on the original `.inp` geometry, boundary conditions, and loads. They are INDEPENDENT of candidate crack length l.
 
 Performance impact:
-During a 15-evaluation Bayesian optimization run, the uncracked model runs exactly once. The remaining 14 iterations read `-without.odb` directly from disk, saving approximately 50% CPU time per evaluation.
+In a 15-evaluation optimization, the uncracked analysis runs if the corresponding ODB does not already exist. Later evaluations can reuse it. The time saved depends on the case and on the cost of each analysis.
 
 ================================================================================
 3. RESOURCE AND FILE MANAGEMENT

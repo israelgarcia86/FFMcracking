@@ -60,10 +60,7 @@ Formal mathematical notation:
 t_{SC}(l) = \frac{\sigma_c}{\min_{x \in [0, l]} \sigma_{nn}(x)}
 \]
 
-Monotonic behavior with respect to length l:
-Near stress concentrators, normal stress reaches a maximum at the notch root and decreases monotonically into the body. Therefore, as candidate length l increases, min(sigma_nn) decreases strictly. As a direct consequence:
-- t_SC(l) is a strictly increasing function of l.
-- Longer candidate cracks require higher loads to satisfy the stress condition at their outer tip.
+Behavior with respect to length: for nested paths, the minimum normal stress cannot increase as the path extends. When that minimum is positive, the associated stress factor is nondecreasing. The stress profile depends on the geometry and loads; strict monotonicity is not assumed.
 
 2.2. Average Stress Variant (Cornetti et al., 2006)
 --------------------------------------------------------------------------------
@@ -115,8 +112,8 @@ where:
 - Subscript 2: Cracked state (-with.odb).
 
 Behavior with respect to length l:
-- For very short cracks (l -> 0), released energy RE scales as l^2 (or steeper). Consequently, DE / RE -> infinity as l -> 0, causing t_EC to diverge for very short lengths.
-- For longer lengths, t_EC decreases rapidly to a minimum before rising with a mild slope.
+- In some cases with finite stress at the origin, released energy tends to zero faster than crack length as l decreases. Under that assumption, DE / |RE| and the energy factor increase for very short cracks. This behavior depends on the stress field and geometry.
+- For longer lengths, the evolution of t_EC depends on geometry, loading and released energy; no general curve shape is assumed.
 
 ================================================================================
 4. COUPLING AND CRITICAL LENGTH lc
@@ -131,7 +128,7 @@ Since the structure fails under the lowest possible load that satisfies the unde
   lc = argmin_{l > 0} t_CC(l)
   tc = t_CC(lc)
 
-ASCII curve representation:
+Schematic curve for an interior crossing (not a general case):
 
   Factor t
      ^
@@ -152,8 +149,7 @@ Physical regions:
 2. Region l > lc (Stress-dominated):
    Energy is abundant, but normal stress at the far tip falls below tensile strength sigma_c. t_SC > t_EC; the crack cannot reach that length without higher load.
 3. Critical length lc:
-   The physical initiation length predicted by Finite Fracture Mechanics. In monotonic problems, it corresponds to the exact intersection:
-   t_SC(lc) = t_EC(lc)
+   The length minimizes the coupled factor over the domain considered. The criteria can coincide at a suitable interior crossing, but this is not guaranteed: the minimum may occur at a boundary or be governed by one criterion.
 
 ================================================================================
 5. CHARACTERISTIC LENGTH AND BRITTLENESS NUMBER
@@ -170,10 +166,10 @@ From this length and the characteristic structural dimension L, the dimensionles
 This governs the structural failure regime:
 - gamma >> 1 (Small or very brittle components):
   The energy criterion dominates; behavior approaches Linear Elastic Fracture Mechanics (LEFM).
-- gamma << 1 (Large components or high-toughness materials):
+- gamma << 1 (Large components for fixed material properties):
   The stress criterion dominates; critical load approaches traditional yield or strength limits.
 - gamma approx 1:
-  Strong coupling regime where both criteria interact, and FFMcracking is essential.
+  Strong coupling regime where both criteria interact, and the coupled criterion can be useful for their study.
 
 ================================================================================
 Navigation: [Previous: Overview](01-introduction.md) | [Wiki Home](../index.md) | [Next: System Design](../02-architecture/01-system-design.md)

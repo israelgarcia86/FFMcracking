@@ -1,100 +1,17 @@
-# 03. Ejemplo 2: Optimizacion de Longitud de Grieta
+# Ejemplo 2: optimización de la longitud de grieta
 
-Navegacion: [Portada Wiki](../index.md) > [04. Guias Practicas](01-requisitos-e-instalacion.md) > Ejemplo 2: Optimizacion de Longitud
+El script `samples/sample2_OpenHoleBasicOptimLenght/example2.py` busca el menor factor acoplado entre longitudes de grieta candidatas. La grieta comienza en `(1.0, 0.0, 0.0)` y su segundo extremo se define como `(1.0 + L, 0.0, 0.0)`. El intervalo configurado es `L_min = 0.1` a `L_max = 5.0`, en las unidades del modelo.
 
-================================================================================
-1. OBJETIVO DEL CASO DE ESTUDIO
-================================================================================
+## Preparación y ejecución
 
-El script `samples/sample2_OpenHoleBasicOptimLenght/example2.py` ilustra la aplicacion mas potente de la Mecanica de la Fractura Finita: descubrir de forma totalmente autonoma la longitud critica con la que se iniciara la grieta (lc) y la carga real de rotura de la estructura (tc).
+Copie `FFMcracking.py` y `modOptimization.py` desde `src/` a la carpeta del ejemplo, o configure la ruta de módulos. Seleccione la carpeta de la muestra como directorio de trabajo y ejecute `example2.py` desde Abaqus/CAE. Desde una terminal situada en la misma carpeta puede usar `abaqus cae noGUI=example2.py`. Los resultados se escriben en `compFiles/`.
 
-En un diseno real, la longitud inicial de grieta es una incognita a priori. Por tanto, el problema fisico exige encontrar el minimo de la envolvente acoplada:
+## Optimización e interpretación
 
-  lc = argmin_{l en [L_min, L_max]} t_CC(l)
+La función objetivo devuelve los factores acoplado, tensional y energético. El algoritmo evalúa cinco longitudes iniciales aleatorias y otras diez candidatas. Reutiliza el ODB sin grieta si ya existe; cada nueva longitud requiere un análisis con grieta. La salida incluye el mejor valor observado y los puntos evaluados.
 
-================================================================================
-2. CONFIGURACION DE PARAMETROS EN example2.py
-================================================================================
+En una ejecución con Abaqus 2024 se obtuvo un factor mínimo observado de **3,7411** para `L ≈ 2,0303`. Los puntos iniciales son aleatorios; el resultado puede variar y no garantiza el mínimo global. Estas cifras describen esa ejecución, no una validación experimental. Consulte [el módulo de optimización](../03-modulos/04-modulo-optimizacion.md) para conocer el procedimiento y sus límites.
 
-Revise las variables principales en `samples/sample2_OpenHoleBasicOptimLenght/example2.py`:
+Si cambia el modelo o el paso de carga, use una salida limpia o retire el ODB sin grieta anterior tras verificar que no está en uso.
 
-```python
-###########################   CONFIGURATION   ################################
-inpFilePath = 'C:/Users/usuario/FFMcracking/samples/sample2_OpenHoleBasicOptimLenght/'
-inpFileName = 'OpenHoleLongDEF-fmesh-00.inp'
-nameStep = 'Loading'
-outRoute = 'C:/Users/usuario/FFMcracking/samples/sample2_OpenHoleBasicOptimLenght/compFiles/'
-
-# Propiedades de fallo del material
-sigmac = 70.0    # Resistencia a traccion (MPa)
-Gc1 = 0.4        # Tenacidad de fractura Modo I (N/mm)
-
-# Rango admisible para la busqueda de la longitud L (mm)
-L_min = 1.0e-1   # 0.1 mm
-L_max = 5.0      # 5.0 mm
-bounds = (L_min, L_max)
-
-# Numero de iteraciones del optimizador Bayesiano
-n_iterations = 10
-################################################==============================
-```
-
-Definicion de la funcion objetivo:
-```python
-def objective(L):
-    # La grieta nace en el borde del taladro (x=1.0) y avanza una distancia L
-    coordinates_1 = [(1.0, 0.0, 0.0), (1.0 + L, 0.0, 0.0)]
-    Crack1 = FFM_Crack(coordinates_1)
-    # Evalua el factor acoplado en Abaqus
-    return Compute_crit_factor_FFM(Crack1, Model1)[0]
-```
-
-================================================================================
-3. EJECUCION DE LA OPTIMIZACION
-================================================================================
-
-Ejecute el script en su terminal mediante el interprete de Abaqus:
-
-```powershell
-abaqus cae noGUI=example2.py
-```
-
-Cronologia del calculo:
-1. Muestreo inicial (5 evaluaciones):
-   El algoritmo evalua 5 longitudes distribuidas aleatoriamente en [0.1, 5.0].
-   - En la primera evaluacion se ejecuta el calculo sin grieta (`-without.odb`).
-   - En las siguientes evaluaciones, el fichero sin grieta se lee directamente de cache.
-2. Bucle Bayesiano (10 iteraciones):
-   - Con los datos acumulados, se ajusta el Proceso Gaussiano.
-   - La funcion Expected Improvement (EI) identifica la longitud candidata mas prometedora.
-   - Se ejecuta el analisis con grieta XFEM en Abaqus para dicha longitud.
-   - Se actualizan la media y la incertidumbre del modelo subrogado.
-3. Convergencia:
-   Tras 15 evaluaciones totales (5 iniciales + 10 iteraciones), el optimizador entrega el minimo global observado.
-
-================================================================================
-4. ANALISIS DE RESULTADOS
-================================================================================
-
-La ejecucion imprime el historial de puntos y concluye con el optimo predicho:
-
-```text
---- RESULTADOS DE LA OPTIMIZACION FFM ---
-Longitud critica de inicio (lc): 1.14 mm
-Factor de carga critico (tc):    1.628
-```
-
-Interpretacion fisica y significado ingenieril:
-1. Longitud critica lc = 1.14 mm:
-   El modelo predice que cuando la estructura falle, no se formara una microgrieta infinitesimal de micras ni una fisura que atraviese la pieza; la fractura se iniciara bruscamente mediante un salto discontinuo de exactamente 1.14 mm.
-2. Factor de carga critico tc = 1.628:
-   La carga nominal aplicada en el archivo `.inp` debera multiplicarse por 1.628 para provocar la rotura inicial de la probeta.
-3. En el punto optimo se verifica el balance fisico:
-   t_SC(1.14) aprox t_EC(1.14) aprox 1.628. La capacidad portante del componente queda rigurosamente determinada por la conjuncion de la resistencia estatica y la tenacidad de fractura.
-
-Recomendacion practica de verificacion (Red de seguridad):
-Antes de realizar cualquier modificacion o refactorizacion en el codigo fuente, ejecute y guarde los resultados numericos de `example1.py` y `example2.py`. Serviran como prueba de regresion para constatar que las optimizaciones de codigo respetan escrupulosamente los valores fisicos de referencia.
-
-================================================================================
-Navegacion: [Anterior: Ejemplo 1](02-ejemplo-1-grieta-fija.md) | [Portada Wiki](../index.md) | [Siguiente: FAQ y Resolucion de Problemas](../05-faq-y-desarrollo/01-resolucion-problemas-faq.md)
-================================================================================
+[Índice](../index.md) · [Ejemplo 1](02-ejemplo-1-grieta-fija.md)

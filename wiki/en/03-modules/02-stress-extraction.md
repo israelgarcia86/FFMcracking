@@ -68,8 +68,8 @@ Candidate cracks may be oriented at arbitrary angles relative to global axes (X,
    - Normal unit vector:
      n_vector = (-t_y, t_x, 0.0)
 
-2. 'CSYS-1' System:
-   In `scratchOdb`, Abaqus builds a datum coordinate system from three points: origin (`point1`), a point along axis 1 (`point2`), and a director point on the normal plane.
+2. 'CSYS-1' system:
+   In `scratchOdb`, the origin is `(0, 0, 0)`. The other two points define axes from the segment's tangent and normal directions.
 
 3. Viewport Transformation:
    Setting `transformationType=USER_SPECIFIED` pointing to `CSYS-1` extracts:
@@ -81,14 +81,7 @@ Candidate cracks may be oriented at arbitrary angles relative to global axes (X,
 3. STRESS CRITERION EVALUATION: evaluate_stress_criterion
 ================================================================================
 
-The function `evaluate_stress_criterion(stresses, sigmac)` processes the extracted stresses and material tensile strength `sigmac`.
-
-Mathematical logic:
-1. Filters data for the target step.
-2. Identifies the normal stress series `snn` (local S22).
-3. Evaluates the pointwise critical multiplier:
-
-   t_SC = sigmac / min(snn)
+The function `evaluate_stress_criterion(stt, snn, stn, ModelObject)` obtains `sigmac` from the model and calculates `sigmac / min(snn)` when `max(snn) > 0`; otherwise it returns infinity. The other components are received but are not used by this function.
 
 Technical observation on original implementation:
 The original source code checks:

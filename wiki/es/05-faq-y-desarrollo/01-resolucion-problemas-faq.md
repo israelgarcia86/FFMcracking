@@ -14,18 +14,8 @@ Abaqus se detiene indicando que la base de datos o el job no pueden abrirse porq
 Causa:
 Si una simulacion previa se interrumpe de forma abrupta (por ejemplo, cancelando con Ctrl+C o por un error de sintaxis previo al cierre), Abaqus deja un fichero testigo con extension `.lck` que bloquea el acceso concurrente al modelo.
 
-Solucion:
-Elimine todos los archivos `.lck` del directorio `compFiles/` antes de relanzar el script.
-
-En Windows (PowerShell):
-```powershell
-Get-ChildItem -Path compFiles -Filter *.lck | Remove-Item -Force
-```
-
-En Linux (Bash):
-```bash
-rm -f compFiles/*.lck
-```
+Solución:
+Compruebe primero que no haya ningún trabajo o sesión de Abaqus utilizando el ODB. Solo si el bloqueo ha quedado obsoleto tras una interrupción, cierre las sesiones correspondientes y retire el archivo `.lck` concreto antes de reintentar.
 
 1.2. El multiplicador t_SC devuelve 'inf' o valores negativos
 --------------------------------------------------------------------------------
@@ -57,7 +47,7 @@ El termino de reciprocidad de Betti (RE) calcula la diferencia entre los product
 
 Solucion:
 - Evite fijar cotas inferiores de busqueda (L_min) inferiores a un elemento de malla en el frente de grieta.
-- Configure los trabajos de Abaqus para resolver con doble precision (`precision=DOUBLE_PLUS_PACK`).
+- Estudie la sensibilidad a la malla y a la precisión numérica; compruebe la configuración del solver de Abaqus para el caso concreto. El código actual solicita `nodalOutputPrecision=FULL`, lo que no establece por sí solo la precisión de resolución.
 
 1.5. Colisiones de sesiones o recursos sucios en CAE
 --------------------------------------------------------------------------------
@@ -68,7 +58,7 @@ Causa:
 Interrupciones intermedias pueden dejar objetos huerfanos en la memoria de la sesion grafica.
 
 Solucion:
-Asegurese de que los scripts se ejecuten siempre en modo no interactivo (`abaqus cae noGUI=...`), lo que garantiza un entorno de memoria limpio e independiente en cada ejecucion.
+Una sesión nueva de Abaqus, incluida una ejecución con `abaqus cae noGUI=...`, puede ayudar a aislar objetos residuales. Compruebe también que los archivos no estén abiertos en otra sesión.
 
 ================================================================================
 Navegacion: [Anterior: Ejemplo 2](../04-guias-y-ejemplos/03-ejemplo-2-optimizacion-longitud.md) | [Portada Wiki](../index.md) | [Siguiente: Guia de Desarrollo](02-guia-desarrollo-y-extensiones.md)

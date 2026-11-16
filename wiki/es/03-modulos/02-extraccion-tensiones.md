@@ -69,7 +69,7 @@ Las grietas pueden orientarse en cualquier direccion arbitraria respecto a los e
      n_vector = (-t_y, t_x, 0.0)
 
 2. Sistema 'CSYS-1':
-   En la base de datos de sesion `scratchOdb`, Abaqus crea un sistema de coordenadas cartesiano local definido por tres puntos: el origen (`point1`), un punto en el eje local 1 (`point2`) y un punto auxiliar en el plano director normal.
+   En `scratchOdb`, el origen se sitúa en `(0, 0, 0)`. Los otros dos puntos definen los ejes a partir de las direcciones tangente y normal al segmento.
 
 3. Extraccion en Viewport:
    Al fijar `transformationType=USER_SPECIFIED` apuntando a `CSYS-1`, las salidas de campo proyectan directamente:
@@ -81,14 +81,7 @@ Las grietas pueden orientarse en cualquier direccion arbitraria respecto a los e
 3. EVALUACION DEL CRITERIO TENSIONAL: evaluate_stress_criterion
 ================================================================================
 
-La funcion `evaluate_stress_criterion(stresses, sigmac)` recibe la coleccion de tensiones extraidas y la resistencia admisible a traccion `sigmac`.
-
-Logica matematica implementada:
-1. Filtra la serie temporal correspondiente al paso de carga de interes.
-2. Identifica la componente de tension normal `snn` (S22 local).
-3. Evalua el multiplicador critico puntual:
-
-   t_SC = sigmac / min(snn)
+La función `evaluate_stress_criterion(stt, snn, stn, ModelObject)` obtiene `sigmac` del modelo y calcula `sigmac / min(snn)` cuando `max(snn) > 0`; en caso contrario devuelve infinito. Las otras componentes se reciben, pero no se utilizan en esta función.
 
 Observacion critica sobre la implementacion actual:
 En el codigo original, existe la siguiente comprobacion:
