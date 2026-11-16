@@ -5,6 +5,11 @@ Created on Fri Apr  8 09:59:37 2016
 HOW TO USE: Please see Readme in the same repository
 """
 
+from abaqus import *
+from abaqusConstants import *
+from odbAccess import *
+from caeModules import *
+
 # Definitions of classes (to be moved to another file)
 class FFM_Material:
     """Class for objects containng material information necessary for
@@ -139,7 +144,6 @@ def  extractDespForcefromNodes(resultsObject,listaNodesDesp,listaNodesForce,list
 
 def extractStressesBetween2points(session,odbObject,point1,point2):
     import numpy as np
-    from abaqusConstants import *
     
     # Number of intervals for the path where the stresses are extracted
     numItervals = 100
@@ -222,7 +226,6 @@ def evaluate_stress_criterion(stt,snn,stn,ModelObject):
 def generate_crack(crackObject,modelObject,session,regionToolset):
     import math
     import numpy as np
-    from abaqusConstants import *
     # Generating the geometry for the crack
     ###############
     # Initial point por the crack
@@ -289,7 +292,6 @@ def evaluate_RE(Ux1_BC,Ux2_BC,Uy1_BC,Uy2_BC,Fx1_BC,Fx2_BC,Fy1_BC,Fy2_BC):
 
 def evaluate_DE(crackObject,OriginalModel,odbECwith,session):
     import numpy as np
-    from abaqusConstants import *
     # EXPLORING THE RESULTS
     # To calculate the length when intersecting the crack edge and one part is out
     # Initial point por the crack
@@ -362,10 +364,6 @@ def Compute_crit_factor_FFM(CrackFFM,OriginalModel):
                 see D. Leguillon, Europ. Journal of Mech  A/Solids, Vol 21, Issue 1, Page 61-72. 
                 https://doi.org/10.1016/S0997-7538(01)01184-6
     """ 
-    from abaqus import *
-    from abaqusConstants import *
-    from odbAccess import *
-    from caeModules import *
     import numpy as np
     import os
     import math
