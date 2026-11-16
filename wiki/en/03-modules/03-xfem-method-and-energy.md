@@ -8,17 +8,14 @@ Navigation: [Wiki Home](../index.md) > [03. Modules](01-module-ffmcracking.md) >
 
 To calculate potential energy release (-Delta Pi), the elastic response of the body after crack initiation must be determined.
 
-Conventional finite element methods require conformal remeshing for each candidate crack length. FFMcracking eliminates remeshing entirely by leveraging the Extended Finite Element Method (XFEM).
+Conventional finite element methods require conformal remeshing for each candidate crack length. FFMcracking uses the Extended Finite Element Method (XFEM) to represent the crack without a mesh conforming to its faces.
 
 Through Partition of Unity, XFEM enriches nodal degrees of freedom in elements cut by the crack:
 - Heaviside jump functions: represent discontinuous displacement jumps across crack faces.
 - Asymptotic tip functions: capture the elasto-static singularity at the crack tip.
 
-Conceptual role: "Geometric Separator", not cohesive damage model.
-The code injects intentionally unreachable damage initiation thresholds (`maxsigma = 5000e10 * sigmac`). Consequently:
-- The solid remains strictly linear elastic.
-- Crack faces are traction-free.
-- XFEM operates purely as a kinematic mechanism introducing geometric discontinuity at zero remeshing cost.
+Conceptual role of XFEM:
+The code sets high damage initiation and evolution thresholds (`maxsigma = 5000e10 * sigmac`). The intent is for the predefined crack to act as a discontinuity during the analysis, while the coupled criterion is evaluated in post-processing. This approximation, including crack-face tractions and the absence of damage, must be checked for the model and loads used.
 
 ================================================================================
 2. CRACK INSERTION: generate_crack

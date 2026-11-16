@@ -30,9 +30,9 @@ class FFM_Material:
 ```
 
 The XFEM geometric separator concept:
-Abaqus requires damage initiation (MaxpsDamageInitiation) and evolution laws to activate an XFEM crack. However, in Finite Fracture Mechanics, Abaqus must NOT govern crack evolution via cohesive zone laws; all failure physics is handled by the Coupled Criterion in post-processing.
+The procedure configures `MaxpsDamageInitiation` and `DamageEvolution` for the XFEM crack and evaluates the coupled criterion in post-processing. The suitability of this setup depends on the model and must be checked for each application.
 
-FFMcracking solves this by assigning an artificially elevated damage initiation threshold `maxsigma` (50,000 billion times sigmac). Consequently, stress never reaches this value, damage evolution is never triggered, and XFEM functions strictly as an elastic, traction-free geometric cut without conformal remeshing.
+FFMcracking sets `maxsigma = 5000e10 * sigmac`, or `5 × 10^13 * sigmac`, to delay damage initiation for the loads considered. This assumption must be checked for each model; the threshold is not guaranteed to be unreachable in every case.
 
 Mixed Mode note:
 In the current release, `sigmac` and `Gc1` are active in calculations (pure Mode I). The attributes `tauc` and `Gc2` are defined in the interface to support future mixed-mode formulations.
@@ -56,19 +56,15 @@ Bundles model configuration parameters and provides helper accessors:
 
 ```python
 class FFM_InputModel:
-    def __init__(self, inpFilePath, inpFileName, nameStep, outRoute, material):
+    def __init__(self, inpFilePath, inpFileName, nameStep, outRoute, material_model):
         self.inpFilePath = inpFilePath
         self.inpFileName = inpFileName
         self.nameStep = nameStep
         self.outRoute = outRoute
-        self.material = material
+        self.material_model = material_model
 ```
 
-Accessor methods:
-- `extract_nameStep()`: Name of the load step containing loads to scale.
-- `extract_outRoute()`: Output directory path.
-- `extract_material()`: Returns the `FFM_Material` instance.
-- `extract_inpFileTotal()`: Full path to `.inp` file.
+Accessor methods: `extract_sigmac()`, `extract_Gc()`, `extract_maxsigma()` and `extract_maxd()` return material properties. Paths and the step name are stored as attributes.
 
 ================================================================================
 3. MAIN ORCHESTRATOR: Compute_crit_factor_FFM
@@ -89,7 +85,7 @@ Return:
 
 Operational sequence:
 1. Environment initialization:
-   Imports Abaqus APIs (`abaqus`, `odbAccess`, `caeModules`), closes open model databases (`mdb.close()`), and switches working directory to `outRoute`.
+   Abaqus APIs are imported when the module loads. The function closes the active model database with `mdb.close()` and changes the working directory to `outRoute`.
 2. Stress Criterion evaluation (Uncracked model):
    - Checks if `<jobName>-without.odb` exists. If not, imports `.inp`, defines output request `EC0`, and submits job.
    - Opens ODB, extracts stresses along crack path, and computes `t_SC = sigmac / min(sigma_nn)`.

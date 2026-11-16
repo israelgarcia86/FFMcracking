@@ -120,7 +120,7 @@ Fundamento fisico:
 El estado tensional y los desplazamientos de la probeta sin grieta dependen exclusivamente de la geometria inicial, las condiciones de contorno y las cargas prescritas en el archivo `.inp`. Dicho estado es totalmente INDEPENDIENTE de la longitud hipotetica de grieta l que se evalue.
 
 Impacto en el rendimiento:
-Durante una optimizacion Bayesiana de 15 evaluaciones, el calculo sin grieta se ejecuta estrictamente una vez (en la primera iteracion). En las 14 iteraciones restantes, el archivo `-without.odb` se abre directamente de disco en modo lectura, ahorrando aproximadamente el 50% del coste de CPU de cada iteracion.
+En una optimización de 15 evaluaciones, el cálculo sin grieta se ejecuta si el ODB correspondiente no existe. Las evaluaciones posteriores pueden reutilizarlo. El ahorro depende del caso y del coste de cada análisis.
 
 ================================================================================
 3. CONTROL DE RECURSOS Y LIMPIEZA DE FICHEROS
