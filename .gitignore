@@ -1,0 +1,20 @@
+# Abaqus calculation output directories
+compFiles/
+
+# Abaqus job results and temporary files
+*.odb
+*.lck
+*.sim
+*.fil
+*.msg
+*.sta
+*.prt
+*.ipm
+
+# Abaqus session logs and replay files
+abaqus*.rpy*
+abaqus*.log
+
+# Python bytecode generated during execution
+__pycache__/
+*.py[cod]
