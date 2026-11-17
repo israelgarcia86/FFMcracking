@@ -1,9 +1,10 @@
 ###########################   CONFIGURATION   ################################
 # Input files, path and mat properties
-inpFilePath = '/home/israel/Calculos/abaqus/prueba6/'
+import os
+inpFilePath = os.getcwd().replace('\\', '/') + '/'
 inpFileName = 'OpenHoleLongDEF-fmesh-00.inp'
 nameStep = 'Loading'
-outRoute = '/home/israel/Calculos/abaqus/prueba6/compFiles/'
+outRoute = inpFilePath + 'compFiles/'
 sigmac = 70.0
 Gc1 = 0.4
 L_min = 1.0e-1
@@ -37,3 +38,4 @@ print('Training data')
 print('xtrain: ', str(x_train))
 print('ytrain: ', str(y_train))
 ################################################################################
+

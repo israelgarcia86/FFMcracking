@@ -1,9 +1,10 @@
 ###########################   CONFIGURATION   ################################
 # Input files, path and mat properties
-inpFilePath = '/home/israel/Calculos/abaqus/prueba5/'
+import os
+inpFilePath = os.getcwd().replace('\\', '/') + '/'
 inpFileName = 'OpenHoleLongDEF-fmesh-00.inp'
 nameStep = 'Loading'
-outRoute = '/home/israel/Calculos/abaqus/prueba5/compFiles/'
+outRoute = inpFilePath + 'compFiles/'
 sigmac = 70.0
 Gc1 = 0.4
 ##############################################################################
@@ -27,3 +28,4 @@ crack_1 = FFM.FFM_Crack(coordinates_1)
 [critical_factor_CC, critical_factor_SC, critical_factor_EC] = FFM.Compute_crit_factor_FFM(crack_1,model_1)
 print('The critical factor is: ' + str(critical_factor_CC))
 ################################################################################
+
