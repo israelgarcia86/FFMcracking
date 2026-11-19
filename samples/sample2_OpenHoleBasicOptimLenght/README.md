@@ -4,11 +4,9 @@ This sample shows how the code is able to calculate the critical load factor by 
 
 ## Usage
 
-1. Copy FFMcracking.py and modOptimization.py from the src folder to the same folder where example2.py is located.
-2. Edit example2.py, including the work directorty, computation directory, material properties, L range, and (not necessary)
- edit the number of iterations, etc.
-3. Run 'abaqus cae noGui=example2.py'
-4. Once finished, the result should be in the output defined, screen, or abaqus.rpy file.
+1. Keep this example folder under `samples/` in the complete repository. The script imports `src.FFMcracking` and `src.modOptimization` directly.
+2. Set this folder as the working directory in **File → Set Work Directory** and select `example2.py` in **File → Run Script**. To run from a terminal, change to this folder and execute `abaqus cae noGUI=example2.py`.
+3. Look for the critical factor and corresponding crack length in the Abaqus message area or `abaqus.rpy`. The analysis files are written to `compFiles/`.
 
 ## Contributing
 

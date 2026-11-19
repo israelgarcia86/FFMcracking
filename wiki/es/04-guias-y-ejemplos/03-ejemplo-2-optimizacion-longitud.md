@@ -4,7 +4,7 @@ El script `samples/sample2_OpenHoleBasicOptimLenght/example2.py` busca el menor 
 
 ## Preparación y ejecución
 
-Copie `FFMcracking.py` y `modOptimization.py` desde `src/` a la carpeta del ejemplo, o configure la ruta de módulos. Seleccione la carpeta de la muestra como directorio de trabajo y ejecute `example2.py` desde Abaqus/CAE. Desde una terminal situada en la misma carpeta puede usar `abaqus cae noGUI=example2.py`. Los resultados se escriben en `compFiles/`.
+Conserve la carpeta del ejemplo dentro de `samples/` en el repositorio completo. El script importa `src.FFMcracking` y `src.modOptimization` directamente. Seleccione la carpeta de la muestra como directorio de trabajo y ejecute `example2.py` desde Abaqus/CAE. Desde una terminal situada en la misma carpeta puede usar `abaqus cae noGUI=example2.py`. Los resultados se escriben en `compFiles/`.
 
 ## Optimización e interpretación
 

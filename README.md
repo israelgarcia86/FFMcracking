@@ -49,12 +49,12 @@ The best way to learn how to use FFMcracking is by following the provided exampl
 ### Run example 1 in Abaqus/CAE
 
 1. Make sure Abaqus/CAE and Abaqus/Standard can access a license. Connect to your license network or VPN if your installation requires it.
-2. Copy `src/FFMcracking.py` into `samples/sample1_OpenHoleCrackFixed/`. Keep `example1.py` and `OpenHoleLongDEF-fmesh-00.inp` in that folder. Use the module from the same revision as the example.
+2. Use the complete repository with its `src/` and `samples/` directories. Keep `example1.py` and `OpenHoleLongDEF-fmesh-00.inp` in `samples/sample1_OpenHoleCrackFixed/`. The script imports `src.FFMcracking` directly.
 3. Start Abaqus/CAE and create a Standard/Explicit model database. Save any work you need first: the script closes the active model database.
 4. Choose **File → Set Work Directory**. Enter the absolute path to `samples/sample1_OpenHoleCrackFixed/` on your computer and click **OK**. Selecting the script in the next step does not by itself set this directory.
 5. Choose **File → Run Script**, select `example1.py` in the example folder and click **OK**. Wait for the uncracked and cracked analyses to finish. The script prints `The critical factor is: ...` in the Abaqus message area; the session replay file `abaqus.rpy` may also contain the output.
 
-The script creates output in `compFiles/` inside the working directory. It can reuse an existing uncracked ODB, and it removes previous files matching the cracked-job pattern in that output folder. Use a separate copy of the example folder to preserve earlier results, and use fresh output if the input model or load step changes. One Abaqus 2024 run printed approximately `3.9020`; results depend on the model and configuration and this value is not an experimental validation.
+The script creates output in `compFiles/` inside the working directory. It can reuse an existing uncracked ODB, and it removes previous files matching the cracked-job pattern in that output folder. Use a separate copy of the example folder under `samples/` to preserve earlier results, and use fresh output if the input model or load step changes. One Abaqus 2024 run printed approximately `3.9020`; results depend on the model and configuration and this value is not an experimental validation.
 
 For a command-line run, open a terminal **in the example directory** and execute `abaqus cae noGUI=example1.py`. See the [example README](samples/sample1_OpenHoleCrackFixed/README.md) or the wiki ([English](wiki/en/04-guides-and-examples/02-example-1-fixed-crack.md), [Spanish](wiki/es/04-guias-y-ejemplos/02-ejemplo-1-grieta-fija.md)) for details.
 

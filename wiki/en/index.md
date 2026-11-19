@@ -52,7 +52,7 @@ flowchart LR
 2.4. PRACTICAL GUIDES AND TUTORIALS (wiki/en/04-guides-and-examples/)
 --------------------------------------------------------------------------------
 - 01. Requirements and Setup (01-requirements-and-setup.md)
-  Abaqus environment prerequisites (2020+), PYTHONPATH setup, and run directory structure.
+  Abaqus requirements, project modules, and working directory setup.
 - 02. Example 1: Fixed Crack (02-example-1-fixed-crack.md)
   Direct critical load factor calculation for a predetermined crack geometry in an open-hole plate (sample1).
 - 03. Example 2: Length Optimization (03-example-2-length-optimization.md)

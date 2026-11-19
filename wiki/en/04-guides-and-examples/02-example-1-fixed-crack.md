@@ -5,7 +5,7 @@ The script `samples/sample1_OpenHoleCrackFixed/example1.py` computes the load fa
 ## Setup and execution
 
 1. Check that Abaqus/CAE and Abaqus/Standard can access a license. Connect to your license network or VPN if required.
-2. Copy `src/FFMcracking.py` from the same repository revision into `samples/sample1_OpenHoleCrackFixed/`. The folder must also contain `example1.py` and `OpenHoleLongDEF-fmesh-00.inp`.
+2. Keep `samples/sample1_OpenHoleCrackFixed/` in the complete repository. The folder must contain `example1.py` and `OpenHoleLongDEF-fmesh-00.inp`. The script imports `src.FFMcracking` directly.
 3. Open Abaqus/CAE and create a Standard/Explicit model database. Save any work you need first: the script closes the active model database.
 4. In **File → Set Work Directory**, enter the absolute path of the example folder on your computer and click **OK**. Selecting the script in the next step does not by itself change the working directory.
 5. In **File → Run Script**, select `example1.py` and click **OK**. Wait for the uncracked and cracked analyses to complete. The script prints `The critical factor is: ...` in the Abaqus message area; the session replay file `abaqus.rpy` may also contain the output.
@@ -20,6 +20,6 @@ The program extracts uncracked stresses, evaluates the stress criterion, runs th
 
 One Abaqus 2024 run printed approximately **3.9020**. This is a result for that configuration, not a universal value or an experimental validation. Check the model's units and inputs when interpreting it.
 
-The uncracked result in `compFiles/` may be reused. The script also removes prior files matching the cracked-job pattern in that folder. Use a separate copy of the example folder to preserve earlier results; use fresh output if the `.inp` or load step changes.
+The uncracked result in `compFiles/` may be reused. The script also removes prior files matching the cracked-job pattern in that folder. Use a separate copy of the example folder under `samples/` to preserve earlier results; use fresh output if the `.inp` or load step changes.
 
 [Index](../index.md) · [Example 2](03-example-2-length-optimization.md)

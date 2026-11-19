@@ -4,7 +4,7 @@ The script `samples/sample2_OpenHoleBasicOptimLenght/example2.py` searches for t
 
 ## Setup and execution
 
-Copy `FFMcracking.py` and `modOptimization.py` from `src/` to the example directory, or configure the module search path. Set the example directory as the working directory and run `example2.py` in Abaqus/CAE. From a terminal in that directory, use `abaqus cae noGUI=example2.py`. Output is written to `compFiles/`.
+Keep the example folder under `samples/` in the complete repository. The script imports `src.FFMcracking` and `src.modOptimization` directly. Set the example directory as the working directory and run `example2.py` in Abaqus/CAE. From a terminal in that directory, use `abaqus cae noGUI=example2.py`. Output is written to `compFiles/`.
 
 ## Optimization and interpretation
 

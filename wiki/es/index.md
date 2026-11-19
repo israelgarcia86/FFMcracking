@@ -52,7 +52,7 @@ flowchart LR
 2.4. GUIAS PRACTICAS Y EJEMPLOS (wiki/es/04-guias-y-ejemplos/)
 --------------------------------------------------------------------------------
 - 01. Requisitos e Instalacion (01-requisitos-e-instalacion.md)
-  Requisitos de entorno Abaqus (2020+), configuracion de PYTHONPATH y preparacion de carpetas de ejecucion.
+  Requisitos de Abaqus, módulos del proyecto y configuración del directorio de trabajo.
 - 02. Ejemplo 1: Grieta Fija (02-ejemplo-1-grieta-fija.md)
   Calculo directo del factor de carga critico para una grieta de longitud y posicion prefijadas en placa con taladro (sample1).
 - 03. Ejemplo 2: Optimizacion de Longitud (03-ejemplo-2-optimizacion-longitud.md)
