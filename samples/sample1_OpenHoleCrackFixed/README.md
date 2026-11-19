@@ -4,10 +4,15 @@ This sample shows how the code is able to calculate the load factor predicted by
 
 ## Usage
 
-1. Copy FFMcracking.py from the src folder to the same folder where example1.py is located.
-2. Edit example1.py, including the work directorty, computation directory, material properties, etc.
-3. Run 'abaqus cae noGui=example1.py'
-4. Once finished, the result should be in the output defined, screen, or abaqus.rpy file.
+1. Check that Abaqus/CAE and Abaqus/Standard can access a license; connect to your license network or VPN if required.
+2. Copy `src/FFMcracking.py` from the same repository revision into this example folder. The folder must also contain `example1.py` and `OpenHoleLongDEF-fmesh-00.inp`.
+3. Open Abaqus/CAE and create a Standard/Explicit model database. Save any work you need before running: the script closes the active model database.
+4. Select **File → Set Work Directory**, enter the absolute path of this example folder and click **OK**. The script uses this working directory to locate the input file and create `compFiles/`.
+5. Select **File → Run Script**, choose `example1.py` and click **OK**. Wait for the analyses to complete. The script prints `The critical factor is: ...` in the Abaqus message area; it may also be recorded in `abaqus.rpy`.
+
+To run from a terminal, first change to this example directory and execute `abaqus cae noGUI=example1.py`.
+
+An Abaqus 2024 run with the supplied example returned approximately `3.9020`. This is an example result, not a universal value or an experimental validation. The script may reuse an existing uncracked ODB and removes files matching the cracked-job pattern in `compFiles/`. Use a separate example folder to preserve previous results; use fresh output after changing the input model or load step.
 
 ## Contributing
 
