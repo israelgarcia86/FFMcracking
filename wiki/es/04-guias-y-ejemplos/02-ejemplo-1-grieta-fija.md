@@ -22,4 +22,10 @@ En una ejecución con Abaqus 2024, el factor impreso fue aproximadamente **3,902
 
 El cálculo sin grieta puede reutilizarse desde `compFiles/`. El script también elimina archivos anteriores que coincidan con el patrón del trabajo con grieta en esa carpeta. Para conservar resultados previos, utilice una copia separada de la carpeta del ejemplo dentro de `samples/`; si cambia el `.inp` o el paso de carga, utilice una salida limpia.
 
+## Visualización del resultado
+
+El script exporta `crack-s22.png` y `crack-opening-s22.png` a `compFiles/visualization/`. La primera imagen muestra S22 sobre la geometría sin deformar en el último incremento del paso `Loading`. La segunda muestra el mismo campo de tensiones sobre la geometría deformada, con una escala de visualización de 150× para apreciar la abertura XFEM. El campo corresponde a la carga de referencia del análisis. La escala solo cambia la forma mostrada.
+
+Al ejecutar el script desde Abaqus/CAE, la segunda vista queda en pantalla. La ejecución desde la terminal también exporta las imágenes. Para inspeccionar el resultado más adelante, abra `compFiles/visualization/crack.odb` en Abaqus/CAE.
+
 [Índice](../index.md) · [Ejemplo 2](03-ejemplo-2-optimizacion-longitud.md)

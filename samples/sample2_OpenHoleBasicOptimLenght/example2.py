@@ -26,10 +26,12 @@ if sys.path[:1] != [repository_root]:
 
 from src import FFMcracking as FFM
 from src import modOptimization as modOpt
+from src.modVisualization import CrackResults
 
 # Generation of the objects for the materual and the model
 material_1 = FFM.FFM_Material(sigmac = sigmac, tauc = 0.0, Gc1 = Gc1, Gc2 = 0.0)
 model_1 = FFM.FFM_InputModel(inpFilePath,inpFileName,nameStep,outRoute,material_1)
+results = CrackResults(model_1)
 ################################################################################
 
 ################################################################################
@@ -39,6 +41,7 @@ def objective(L):
     crack_1 = FFM.FFM_Crack(coordinates_1)
     [critical_factor_CC, critical_factor_SC, critical_factor_EC] = FFM.Compute_crit_factor_FFM(crack_1,model_1)
     print('Evaluated for L = ' + str(L) + 'and got crit factor = ' + str(critical_factor_CC))
+    results.save_if_best(critical_factor_CC)
     return [critical_factor_CC, critical_factor_SC, critical_factor_EC]
 
 bounds = (L_min, L_max)
@@ -48,5 +51,6 @@ print('The critical factor is: ' + str(best_y) + ' for a increment of crack leng
 print('Training data')
 print('xtrain: ', str(x_train))
 print('ytrain: ', str(y_train))
+results.show(x_train, y_train)
 ################################################################################
 

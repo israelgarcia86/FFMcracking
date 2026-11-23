@@ -46,6 +46,8 @@ The best way to learn how to use FFMcracking is by following the provided exampl
 
 *More examples will be added as new features are developed.*
 
+After either example finishes, look in `compFiles/visualization/` for the exported Abaqus images. The contour plots show S22 on the undeformed model and on the deformed model with the opening magnified 150×. Example 2 also exports an XY plot of the evaluated lengths and shows the crack for the lowest factor found. The example pages in the wiki describe the figures and the files.
+
 ### Run example 1 in Abaqus/CAE
 
 1. Make sure Abaqus/CAE and Abaqus/Standard can access a license. Connect to your license network or VPN if your installation requires it.

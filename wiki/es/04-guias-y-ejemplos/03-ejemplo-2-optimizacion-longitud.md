@@ -14,4 +14,10 @@ En una ejecución con Abaqus 2024 se obtuvo un factor mínimo observado de **3,7
 
 Si cambia el modelo o el paso de carga, use una salida limpia o retire el ODB sin grieta anterior tras verificar que no está en uso.
 
+## Visualización del resultado
+
+El script guarda tres imágenes en `compFiles/visualization/`. En `length-optimization.png`, el eje horizontal muestra las longitudes evaluadas y el vertical sus factores acoplados. El rombo rojo marca el menor factor observado. Las evaluaciones repetidas de una misma longitud pueden superponerse.
+
+El script conserva una copia del ODB con grieta de la mejor longitud observada en `compFiles/visualization/crack.odb`, aunque la última evaluación corresponda a otra longitud. A partir de esa copia exporta `crack-s22.png` y `crack-opening-s22.png` con los mismos ajustes que en el [Ejemplo 1](02-ejemplo-1-grieta-fija.md). Abaqus/CAE deja en pantalla el mapa de la grieta y mantiene disponible en la sesión la gráfica XY **FFM crack-length optimization**.
+
 [Índice](../index.md) · [Ejemplo 1](02-ejemplo-1-grieta-fija.md)

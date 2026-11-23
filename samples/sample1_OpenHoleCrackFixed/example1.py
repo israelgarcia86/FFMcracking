@@ -23,6 +23,7 @@ if sys.path[:1] != [repository_root]:
     sys.path.insert(0, repository_root)
 
 from src import FFMcracking as FFM
+from src.modVisualization import CrackResults
 
 # Generation of the objects for the materual and the model
 material_1 = FFM.FFM_Material(sigmac = sigmac, tauc = 0.0, Gc1 = Gc1, Gc2 = 0.0)
@@ -38,5 +39,9 @@ crack_1 = FFM.FFM_Crack(coordinates_1)
 # Run the code
 [critical_factor_CC, critical_factor_SC, critical_factor_EC] = FFM.Compute_crit_factor_FFM(crack_1,model_1)
 print('The critical factor is: ' + str(critical_factor_CC))
+
+results = CrackResults(model_1)
+results.save_if_best(critical_factor_CC)
+results.show()
 ################################################################################
 

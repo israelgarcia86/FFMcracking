@@ -22,4 +22,10 @@ One Abaqus 2024 run printed approximately **3.9020**. This is a result for that 
 
 The uncracked result in `compFiles/` may be reused. The script also removes prior files matching the cracked-job pattern in that folder. Use a separate copy of the example folder under `samples/` to preserve earlier results; use fresh output if the `.inp` or load step changes.
 
+## Visualizing the result
+
+The script exports `crack-s22.png` and `crack-opening-s22.png` to `compFiles/visualization/`. The first shows S22 on the undeformed model at the final frame of `Loading`. The second shows the same stress field on the deformed model, with a 150× display scale to make the XFEM crack opening visible. The field corresponds to the reference load in the analysis. The scale changes the displayed shape only.
+
+Running the script from Abaqus/CAE leaves the second view on screen. A command-line run also exports the images. To inspect the result later, open `compFiles/visualization/crack.odb` in Abaqus/CAE.
+
 [Index](../index.md) · [Example 2](03-example-2-length-optimization.md)
