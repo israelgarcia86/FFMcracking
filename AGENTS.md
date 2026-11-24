@@ -78,8 +78,10 @@ Any agent operating in this repository must strictly adhere to the following rul
 ```text
 FFMcracking/
 |-- src/
+|   |-- __init__.py            # Shared package entry point
 |   |-- FFMcracking.py         # Main Abaqus interface & FFM Coupled Criterion solver
 |   |-- modOptimization.py     # Bayesian optimization engine (GPR, RBF kernel, EI)
+|   |-- modVisualization.py   # Abaqus result snapshots, contour maps and XY plot
 |   +-- README.nd              # Module notes (legacy name)
 |-- samples/
 |   |-- sample1_OpenHoleCrackFixed/
@@ -146,7 +148,7 @@ FFMcracking/
    `src/FFMcracking.py` and `src/modOptimization.py` must NEVER depend on external packages like SciPy, Scikit-Learn, PyTorch, SymPy, or Pandas. Only standard library modules (`math`, `random`, `sys`, `os`) and `numpy` are allowed.
 
 3. Strict Resource Management in Abaqus:
-   Always close ODB pointers (`odb.close()`) and model databases (`mdb.close()`). Unclosed databases create lingering `.lck` files that halt subsequent runs.
+   Solver routines must close ODB pointers (`odb.close()`) and model databases (`mdb.close()`). Unclosed writable databases can leave `.lck` files that block later jobs. The post-processor may keep its own read-only copy open for viewing in Abaqus/CAE.
 
 ================================================================================
 6. CRITICAL TRAPS AND DEFECTS IDENTIFIED IN CODEBASE
@@ -164,7 +166,7 @@ The following known defects and numerical sensitivities have been identified (re
    For short crack lengths (l << lc), displacements and forces in the cracked state differ minimally from the uncracked state. RE is computed by subtracting nearly equal quantities. Double precision solver execution (`precision=DOUBLE_PLUS_PACK`) is essential to prevent cancellation errors.
 
 4. Uncracked Model Caching Invalidation:
-   The `-without.odb` caching does not verify `.inp` timestamps or hashes. When modifying model geometry or loading steps, generated files in `compFiles/` must be purged.
+   The `-without.odb` caching does not verify `.inp` timestamps or hashes. After a change to model geometry or the loading step, use a clean `compFiles/` output directory to avoid reusing stale results.
 
 5. Path Portability:
    File paths currently rely on string concatenations expecting trailing `/`. When updating code, migrate to `os.path.join()` and `os.path.normpath()` for cross-platform portability.
@@ -193,3 +195,46 @@ For complete mathematical formulations, code listings, and execution tutorials:
 - Spanish Wiki: wiki/es/index.md
 - English Wiki: wiki/en/index.md
 - Ph.D. Thesis Reference: I. Garcia, "Crack initiation in composites at micro and meso scales. Development and applications of finite fracture mechanics", University of Seville, 2014 (dir. V. Mantic).
+
+================================================================================
+9. SAMPLE MODELS AND EXPECTED OUTPUT
+================================================================================
+
+Both examples were already present in the original repository. Example 1 was added in `a085c9a` and Example 2 in `79cafcb`. The two current copies of `OpenHoleLongDEF-fmesh-00.inp` are identical. They describe the same 2D linear elastic plate with a hole. The Python examples set `sigmac = 70.0` and `Gc1 = 0.4` in the model's consistent units, with `tauc` and `Gc2` set to zero.
+
+- Both inputs use a static step named `Loading` with `nlgeom=NO`. The upper edge (`Set-3`) has a prescribed vertical displacement `U2 = 0.01`. The bottom symmetry (`Set-2`, `YSYMM`) sets `U2 = 0`, and the vertical symmetry edge (`Set-1`, `XSYMM`) sets `U1 = 0`. Abaqus computes the reaction forces. Treat `0.01` as the reference displacement in model units.
+- An increment is a solver advance within an analysis step. A frame is a state saved in the ODB. The visualization selects the last saved frame of `Loading`, at the full reference displacement for a completed sample run. The inspected Abaqus 2024 cracked jobs reached that state in one increment. An increment within a job is separate from a crack-length evaluation, which calls the solver again.
+- Example 1 (`samples/sample1_OpenHoleCrackFixed/example1.py`) evaluates the horizontal crack from `(1.0, 0.0, 0.0)` to `(4.5, 0.0, 0.0)`, of length `3.5`. The solver returns the coupled, stress and energy factors in that order. The script prints the coupled factor.
+- Example 2 (`samples/sample2_OpenHoleBasicOptimLenght/example2.py`) fixes the start at `(1.0, 0.0, 0.0)` and direction along X. It searches lengths in `[0.1, 5.0]`. Five random starting lengths are followed by ten evaluations selected using Expected Improvement on a 100-point candidate grid. The objective returns all three factors. The optimizer returns the best observed length and coupled factor. The script prints both values and the paired lists `xtrain` (lengths) and `ytrain` (coupled factors). Lengths can repeat and the search result is the minimum among the evaluated candidates.
+- The sample plots show fields at the reference load. The coupled factor scales the prescribed displacement to the predicted onset under proportional loading. For example, `3.9020 * 0.01` gives about `0.0390` model units for the fixed crack.
+
+================================================================================
+10. RUNNING THE SAMPLES AND PRESERVING RESULTS
+================================================================================
+
+- Abaqus/CAE and Abaqus/Standard both need license access. When using an educational license server reached over VPN, establish the VPN connection first.
+- Keep each sample folder directly under `samples/` with its script and input deck, and keep the shared `src/` package at the repository root. Both entry points derive the location of `src` from the working directory and check for `src/__init__.py`.
+- In Abaqus/CAE, save any open work and select **File → Set Work Directory**. Set the absolute path of the sample folder, then use **File → Run Script** to select `example1.py` or `example2.py`. File selection alone leaves the working directory unchanged. The solver closes the active model database. The terminal equivalent is `abaqus cae noGUI=example1.py` or `abaqus cae noGUI=example2.py` from the corresponding sample directory.
+- The jobs write `<input-stem>-EC-without.odb` and `<input-stem>-EC-with.odb` under the sample's `compFiles/`. The solver reuses the uncracked ODB by filename and replaces prior cracked-job files before each cracked solve. Use a clean copy of the sample under `samples/` when changing inputs or preserving earlier results. Numeric results appear in the Abaqus message area or terminal and can also be recorded in the session replay file `abaqus.rpy`. The `.sta` job file reports completion status and increments.
+- Python 3 rejects function-local wildcard imports with `SyntaxError: import * only allowed at module level`. The Abaqus 2024 fix in `c22107c` moved the Abaqus wildcard imports to module scope in `src/FFMcracking.py`. The old copies beside the example scripts could still be selected by a bare `import FFMcracking`. Commit `65479d3` removed those copies and made the examples import the shared modules from `src`.
+
+================================================================================
+11. AUTOMATIC AND MANUAL VISUALIZATION
+================================================================================
+
+Commit `c99f650` on `visualizacion` adds the shared Abaqus post-processor `src/modVisualization.py`. Both samples call `CrackResults` with their `FFM_InputModel`. The post-processor reads existing solver output and leaves the calculations in the solver and optimizer.
+
+- `save_if_best(factor)` copies the cracked job's ODB to `compFiles/visualization/crack.odb` for the first recorded result and each strict improvement. Ties retain the earlier copy. Example 1 records its sole evaluation. Example 2 records during the objective so the best ODB is preserved before a subsequent evaluation replaces the solver file.
+- `show()` opens the snapshot read-only in `Viewport: 1`, selects the last saved frame of the configured step, and exports `crack-s22.png` on the undeformed model and `crack-opening-s22.png` on the deformed model. The uniform display scale of 150 highlights the XFEM opening and only affects the displayed geometry. With the GUI attached, the snapshot is left in the viewport. A headless run closes the ODB after export.
+- `show(x_train, y_train)` also exports `length-optimization.png` from the paired evaluations provided by the optimizer. Blue circles are evaluated lengths and the red diamond is the lowest finite factor plotted. Duplicate points can overlap. Non-finite factors are omitted from the XY plot. The plot remains available in the CAE session as **FFM crack-length optimization**.
+- Other FFMcracking examples can reuse the module when they produce a cracked ODB with the same naming convention and a stress field `S` containing `S22` in the configured step. The existing view expects `Viewport: 1`. S22 is the normal stress in direction 2, global Y for these inputs. It is perpendicular to the horizontal sample cracks. For an inclined crack, use a suitable coordinate transformation or component to interpret the normal stress. The map from the cracked ODB differs from the path stresses the solver extracts on the uncracked model for the stress criterion.
+- To inspect results manually, open the cracked ODB in **Visualization**, choose **Result → Step/Frame → Loading** and the last saved frame, then select **Result → Field Output → S → S22**. Use **Plot → Contours** on the undeformed or deformed shape. To reproduce the enlarged opening, set the uniform scale to 150 in **Common Plot Options**. To create the optimization plot manually, enter the paired `xtrain` and `ytrain` values with **Tools → XY Data → Create**, or import two text columns. If the original example overwrote the best-case ODB, use a saved copy or rerun that candidate to inspect its field results.
+- The top-level README and both language versions of the wiki's **Example 1** and **Example 2** guides explain the exported figures and where to find them.
+
+================================================================================
+12. VERIFIED ABAQUS REFERENCE RUNS
+================================================================================
+
+On 2026-11-21, both examples completed in Abaqus 2024 from a separate working copy of revision `65479d3`. Example 1 returned `3.9020145683789984`. Example 2 returned `3.74112289746173` at `L = 2.0303030303030307` after 15 evaluations of 11 distinct lengths. The final evaluation in that run matched the best observed one. These are reference values for that setup. The optimization starts from random points, so later runs may differ.
+
+The images from those runs were exported in Abaqus with a separate local helper, `vistas.py`. That helper is outside the repository. The runs verified the shared `src` imports and the numerical outputs before the integrated post-processor was added. As of this documentation update, running the integrated visualization at `c99f650` end to end in Abaqus remains pending.

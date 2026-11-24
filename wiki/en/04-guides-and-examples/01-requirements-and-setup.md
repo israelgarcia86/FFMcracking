@@ -4,7 +4,7 @@ The examples require Abaqus/CAE, Abaqus/Standard, access to a license, and NumPy
 
 ## Modules
 
-Copy `src/FFMcracking.py` into each example directory. For example 2, also copy `src/modOptimization.py`. Alternatively, configure the Abaqus module search path to include `src`. NumPy is a dependency in addition to the Python standard library.
+Use the complete repository and keep each example folder under `samples/`. Both examples import `src.FFMcracking` directly. Example 2 also imports `src.modOptimization`.
 
 ## Execution
 
